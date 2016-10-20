@@ -63,12 +63,18 @@
   <ItemGroup>
     <ClCompile Include="context.cpp" />
     <ClCompile Include="framebuffer.cpp" />
+    <ClCompile Include="game_math.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="context.h" />
     <ClInclude Include="framebuffer.h" />
+    <ClInclude Include="game_math.h" />
     <ClInclude Include="renderer.h" />
+    <ClInclude Include="vector2.h" />
+    <ClInclude Include="wall.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

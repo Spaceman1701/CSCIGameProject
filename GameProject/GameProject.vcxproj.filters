@@ -18,6 +18,15 @@
     <ClCompile Include="context.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="vector2.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="game_math.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framebuffer.h">
@@ -27,6 +36,15 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="context.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="wall.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="vector2.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="game_math.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>
