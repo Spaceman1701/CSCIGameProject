@@ -17,10 +17,11 @@ int main() {
 	s.addWall(w1);
 	s.addWall(w2);
 
-	
+	Player p;
 
 	while (true) {
-		ren.drawSector(s);
+		p.update();
+		ren.drawSector(s, p);
 		context.swapBuffers(ren.getFramebuffer());
 	}
 	return 0;

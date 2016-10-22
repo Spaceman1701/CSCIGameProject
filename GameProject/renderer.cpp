@@ -16,8 +16,8 @@ void Renderer::update() {
 Framebuffer* Renderer::getFramebuffer() {
 	return &framebuffer; //this should be fine...
 }
-void Renderer::drawSector(Sector& s) {
-	Vector2 playerLoc(0.0f, 0.0f);
+void Renderer::drawSector(Sector& s, Player& p) {
+	Vector2 playerLoc = p.getPosition();
 	float playerZ = 0.0f;
 
 	std::vector<Wall*> walls = s.getWalls();
@@ -27,8 +27,16 @@ void Renderer::drawSector(Sector& s) {
 			//drawVLine(width / 2, 0, height);
 		}
 		Vector2 v2 = w->getPoints()[1];
-		Vector2 cv1 = calcPlayerSpaceVec(v1, playerLoc, 0, 1, 0.0f);
-		Vector2 cv2 = calcPlayerSpaceVec(v2, playerLoc, 0, 1, 0.0f);
+		Vector2 cv1 = calcPlayerSpaceVec(v1, playerLoc, p.getAngle(), p.getCosAngle(), p.getSinAngle());
+		Vector2 cv2 = calcPlayerSpaceVec(v2, playerLoc, p.getAngle(), p.getCosAngle(), p.getSinAngle());
+
+		if (cv1.y <= 0 && cv2.y <= 0) {
+			continue; //wall is completely behind player
+		}
+		if (cv1.x <= 0 || cv2.y <= 0) { //wall is partly clipped by player's view frustrum
+			continue; //write this code later
+		}
+
 		Vector2 s1 = getPerspectiveScale(cv1); //scale vector 1
 		Vector2 s2 = getPerspectiveScale(cv2); //scale vector 2
 
@@ -77,9 +85,9 @@ void Renderer::drawVLine(float x, float bottom, float top, Color& color) {
 
 Vector2 Renderer::calcPlayerSpaceVec(Vector2& vec, Vector2& origin, float angle, float cos, float sin) {
 	Vector2 cVec = vec - origin;
-	float xp = cVec.x * sin - cVec.y * cos;
-	float yp = cVec.x * cos + cVec.y * sin;
-	return Vector2(vec);
+	float xp = cVec.x * cos - cVec.y * sin;
+	float yp = cVec.x * sin + cVec.y * cos;
+	return Vector2(xp, yp);
 }
 
 Vector2 Renderer::getPerspectiveScale(Vector2& vec) {

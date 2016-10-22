@@ -13,4 +13,5 @@ public:
 	float getAngle();
 	float getCosAngle();
 	float getSinAngle();
+	void update();
 };

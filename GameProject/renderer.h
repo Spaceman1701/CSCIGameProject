@@ -3,6 +3,7 @@
 #include "wall.h"
 #include "sector.h"
 #include "color.h"
+#include "player.h"
 class Renderer {
 private:
 	Framebuffer framebuffer;
@@ -18,6 +19,6 @@ public:
 	Renderer(int width, int height);
 	void update();
 	Framebuffer* getFramebuffer();
-	void drawSector(Sector& s);
+	void drawSector(Sector& s, Player& p);
 	void drawVLine(float x, float lower, float upper, Color& color);
 };
