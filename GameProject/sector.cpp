@@ -15,7 +15,17 @@ float Sector::getCeilHeight() {
 	return ceil_height;
 }
 
-Sector::Sector(float floor, float ceil) {
+Sector::Sector(float floor, float ceil, Color floor_color, Color ceil_color) {
 	this->floor_height = floor;
 	this->ceil_height = ceil;
+	this->floorColor = floor_color;
+	this->ceilColor = ceil_color;
+}
+
+Color& Sector::getFloorColor() {
+	return floorColor;
+}
+
+Color& Sector::getCeilColor() {
+	return ceilColor;
 }

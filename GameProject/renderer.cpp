@@ -1,6 +1,7 @@
 #include "renderer.h"
 #include <math.h>
 #include "game_math.h"
+#include "color.h"
 
 Renderer::Renderer(int width, int height) : framebuffer(width, height) {
 	this->width = width;
@@ -23,7 +24,7 @@ void Renderer::drawSector(Sector& s) {
 	for (Wall* w : walls) {
 		Vector2 v1 = w->getPoints()[0];
 		if (v1.x == 20.0f && v1.y == 1.0f) {
-			drawVLine(width / 2, 0, height);
+			//drawVLine(width / 2, 0, height);
 		}
 		Vector2 v2 = w->getPoints()[1];
 		Vector2 cv1 = calcPlayerSpaceVec(v1, playerLoc, 0, 1, 0.0f);
@@ -35,8 +36,8 @@ void Renderer::drawSector(Sector& s) {
 		int x2 = width/2.0 - (int)(cv2.x * s2.x);
 
 		if (x1 >= x2) { //wall takesup 0 or less pixels
-			drawVLine(10, 0, 480);
-			//continue; //go to the next wall
+			//drawVLine(10, 0, 480);
+			continue; //go to the next wall
 		}
 
 		float cceilz = s.getCeilHeight() - playerZ;
@@ -54,19 +55,23 @@ void Renderer::drawSector(Sector& s) {
 		for (int x = startx; x < endx; x++) {
 			int yceil = (x - x1) * (yceil2 - yceil1) / (x2 - x1) + yceil1; //clamp against draw lists later
 			int yfloor = (x - x1) * (yfloor2 - yfloor1) / (x2 - x1) + yfloor1;
+			int z = ((x - x1) * (cv2.y - cv1.y) / (x2 - x1) + cv1.y) * 65;
 			//int jj = 0;
-			drawVLine(x, yfloor, yceil);
+			Color c = Color(255 - z, 255 - z, 255 - z);
+			drawVLine(x, yfloor, yceil, c); //draw wall
+			drawVLine(x, 0, yfloor, s.getFloorColor()); //draw floor;
+			drawVLine(x, yceil, height, s.getCeilColor());
 		}
 
 	}
 }
 
-void Renderer::drawVLine(float x, float bottom, float top) {
+void Renderer::drawVLine(float x, float bottom, float top, Color& color) {
 	float lowerY = clampf(bottom, 0, height);
 	float upperY = clampf(top, 0, height);
 
 	for (int y = lowerY; y < upperY; y++) {
-		framebuffer.drawColorPixel(x, y, 255, 255, 255);
+		framebuffer.drawColorPixel(x, y, color.getColor());
 	}
 }
 

@@ -9,7 +9,7 @@ private:
 	int height;
 
 	inline int convertCoords(int x, int y) {
-		return x + width*y;
+		return x + width*(height-y); //store framebuffer upside down. Makes bottom left corner origin
 	}
 	inline void convertIndex(int i, int* x, int* y) {
 		*x = i % width;

@@ -1,11 +1,14 @@
 #pragma once
 #include "wall.h"
 #include <vector>
+#include "color.h"
 class Sector {
 private:
 	std::vector<Wall*> walls;
 	float floor_height;
 	float ceil_height;
+	Color floorColor;
+	Color ceilColor;
 public:
 	std::vector<Wall*>& getWalls();
 
@@ -14,5 +17,8 @@ public:
 	float getFloorHeight();
 	float getCeilHeight();
 
-	Sector(float floor, float ceil);
+	Color& getFloorColor();
+	Color& getCeilColor();
+
+	Sector(float floor, float ceil, Color floorColor, Color ceilColor);
 };

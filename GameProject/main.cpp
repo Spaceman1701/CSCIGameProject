@@ -2,14 +2,22 @@
 #include "renderer.h"
 #include "context.h"
 #include "sector.h"
+#include "player.h"
 
 int main() {
 	Context context(640, 480, 640, 480);
 	context.init();
 	Renderer ren(640, 480);
-	Sector s(0.01f, 3.0f);
+	Sector s(-1.0f, 3.0f, Color(0, 255, 0), Color(255, 0, 0));
 	Wall* w = new Wall(Vector2(2.0f, 1.0f), Vector2(0.5f, 2.0f));
+	Wall* w1 = new Wall(Vector2(-0.5f, 2.0f), Vector2(-2.0f, 1.0f));
+	Wall* w2 = new Wall(Vector2(1.5f, 2.1f), Vector2(-1.5f, 2.1f));
+
 	s.addWall(w);
+	s.addWall(w1);
+	s.addWall(w2);
+
+	
 
 	while (true) {
 		ren.drawSector(s);
