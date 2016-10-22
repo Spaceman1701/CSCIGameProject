@@ -1,21 +1,21 @@
 #include "framebuffer.h"
 #include "renderer.h"
 #include "context.h"
+#include "sector.h"
 
 int main() {
-	Framebuffer fb(640, 480);
 	Context context(640, 480, 640, 480);
 	context.init();
-	fb.drawColorPixel(320, 240, 255, 255, 0);
-	fb.drawColorPixel(640, 480, 255, 0, 0);
+	Renderer ren(640, 480);
+	Sector s(0.01f, 3.0f);
+	Wall* w = new Wall(Vector2(2.0f, 1.0f), Vector2(0.5f, 2.0f));
+	s.addWall(w);
+
 	while (true) {
-		for (int x = 1; x < 641; x++) {
-			for (int y = 1; y < 481; y++) {
-				fb.drawColorPixel(x, y, 255, 255, 255);
-			}
-		}
-		context.swapBuffers(&fb);
+		ren.drawSector(s);
+		context.swapBuffers(ren.getFramebuffer());
 	}
+	return 0;
 }
 
 #if 0

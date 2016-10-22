@@ -27,6 +27,12 @@
     <ClCompile Include="game_math.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="sector.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="wall.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framebuffer.h">
@@ -45,6 +51,12 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="game_math.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="sector.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,6 +7,8 @@ public:
 	Vector2(float x, float y);
 	Vector2(Vector2* vec);
 
+	Vector2();
+
 	float mag();
 	float mag2();
 

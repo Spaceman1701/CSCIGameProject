@@ -66,13 +66,17 @@
     <ClCompile Include="game_math.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="sector.cpp" />
     <ClCompile Include="vector2.cpp" />
+    <ClCompile Include="wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="context.h" />
     <ClInclude Include="framebuffer.h" />
     <ClInclude Include="game_math.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="renderer.h" />
+    <ClInclude Include="sector.h" />
     <ClInclude Include="vector2.h" />
     <ClInclude Include="wall.h" />
   </ItemGroup>

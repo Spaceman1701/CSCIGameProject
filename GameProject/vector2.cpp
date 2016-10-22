@@ -9,6 +9,11 @@ Vector2::Vector2(Vector2* vec) {
 	y = vec->y;
 }
 
+Vector2::Vector2() {
+	x = 0.0f;
+	y = 0.0f;
+}
+
 float Vector2::mag() {
 	float sqMag = mag2();
 	if (sqMag == 1.0f) {
