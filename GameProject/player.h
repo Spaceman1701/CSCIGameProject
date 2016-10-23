@@ -14,4 +14,5 @@ public:
 	float getCosAngle();
 	float getSinAngle();
 	void update();
+	void move(const Vector2& dir);
 };

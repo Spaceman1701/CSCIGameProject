@@ -1,4 +1,6 @@
 #include "framebuffer.h"
+#include <stdlib.h>
+#include <string.h>
 
 Framebuffer::Framebuffer(int width, int height) {
 	this->width = width;
@@ -22,4 +24,8 @@ int Framebuffer::getHeight() {
 Framebuffer::~Framebuffer() {
 	delete[] colorBuffer;
 	delete[] depthBuffer;
+}
+
+void Framebuffer::clear() {
+	memset(colorBuffer, 0, sizeof(uint32_t)*width*height);
 }

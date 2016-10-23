@@ -2,6 +2,8 @@
 #include <math.h>
 #include "game_math.h"
 #include "color.h"
+#include <iostream>
+#include <SDL2/SDL.h>
 
 Renderer::Renderer(int width, int height) : framebuffer(width, height) {
 	this->width = width;
@@ -13,9 +15,11 @@ Renderer::Renderer(int width, int height) : framebuffer(width, height) {
 void Renderer::update() {
 
 }
+
 Framebuffer* Renderer::getFramebuffer() {
 	return &framebuffer; //this should be fine...
 }
+
 void Renderer::drawSector(Sector& s, Player& p) {
 	Vector2 playerLoc = p.getPosition();
 	float playerZ = 0.0f;
@@ -23,9 +27,6 @@ void Renderer::drawSector(Sector& s, Player& p) {
 	std::vector<Wall*> walls = s.getWalls();
 	for (Wall* w : walls) {
 		Vector2 v1 = w->getPoints()[0];
-		if (v1.x == 20.0f && v1.y == 1.0f) {
-			//drawVLine(width / 2, 0, height);
-		}
 		Vector2 v2 = w->getPoints()[1];
 		Vector2 cv1 = calcPlayerSpaceVec(v1, playerLoc, p.getAngle(), p.getCosAngle(), p.getSinAngle());
 		Vector2 cv2 = calcPlayerSpaceVec(v2, playerLoc, p.getAngle(), p.getCosAngle(), p.getSinAngle());
@@ -33,8 +34,48 @@ void Renderer::drawSector(Sector& s, Player& p) {
 		if (cv1.y <= 0 && cv2.y <= 0) {
 			continue; //wall is completely behind player
 		}
-		if (cv1.x <= 0 || cv2.y <= 0) { //wall is partly clipped by player's view frustrum
-			continue; //write this code later
+
+		float nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
+		Vector2 near = Vector2(nearside, nearz);
+		Vector2 far = Vector2(farside, farz);
+		std::cout << "y " << cv1.y << std::endl;
+		if (cv1.y <= 0.5f || cv2.y <= 0.5f) { //wall is partly clipped by player's view frustrum
+			std::cout << "wall behind" << std::endl;
+			continue;
+			Color c(255, 255, 255);
+			drawVLine(25, 0, 640, c);
+
+			Vector2 intersect1, intersect2;
+			Vector2 neg_near = -near;
+			Vector2 neg_far = -far;
+			if (lineIntersect(cv1, cv2, neg_near, neg_far, intersect1)) {
+				continue;
+			}
+
+			if (lineIntersect(cv1, cv2, near, far, intersect2)) {
+				continue;
+			}
+			
+			if (cv1.y < nearz) {
+				if (intersect1.y > 0) {
+					cv1.x = intersect1.x;
+					cv1.y = intersect1.y;
+				}
+				else {
+					cv1.x = intersect2.x;
+					cv1.y = intersect2.y;
+				}
+			}
+			if (cv2.y < nearz) {
+				if (intersect1.y > 0) {
+					cv2.x = intersect1.x;
+					cv2.y = intersect1.y;
+				}
+				else {
+					cv2.x = intersect2.x;
+					cv2.y = intersect2.y;
+				}
+			}
 		}
 
 		Vector2 s1 = getPerspectiveScale(cv1); //scale vector 1
@@ -84,9 +125,9 @@ void Renderer::drawVLine(float x, float bottom, float top, Color& color) {
 }
 
 Vector2 Renderer::calcPlayerSpaceVec(Vector2& vec, Vector2& origin, float angle, float cos, float sin) {
-	Vector2 cVec = vec - origin;
-	float xp = cVec.x * cos - cVec.y * sin;
-	float yp = cVec.x * sin + cVec.y * cos;
+	Vector2 cVec = vec- origin;
+	float xp = (cVec.x * cos) - (cVec.y * sin);
+	float yp = (cVec.x * sin) + (cVec.y * cos);
 	return Vector2(xp, yp);
 }
 

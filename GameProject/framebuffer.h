@@ -33,6 +33,8 @@ public:
 		return colorBuffer[convertCoords(x-1, y-1)];
 	}
 
+	void clear();
+
 	uint32_t* getPixels();
 
 	int getWidth();

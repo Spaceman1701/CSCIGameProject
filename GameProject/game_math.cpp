@@ -11,7 +11,7 @@ float clampf(float v, float min, float max) {
 	return v;
 }
 
-bool lineIntersect(const Vector2& l1s, const Vector2& l1e, const Vector2& l2s, const Vector2& l2e, Vector2& result) {
+bool lineIntersect(Vector2& l1s, Vector2& l1e, Vector2& l2s, Vector2& l2e, Vector2& result) {
 	float a1 = signedTriArea(l1s, l1e, l2e);
 	float a2 = signedTriArea(l1s, l1e, l2s);
 

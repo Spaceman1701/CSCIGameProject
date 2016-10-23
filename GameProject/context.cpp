@@ -1,15 +1,16 @@
 #include "context.h"
 #include <iostream>
 #include <math.h>
-Context::Context(int width, int height, int ren_width, int ren_height) {
+
+Context* Context::instance = NULL;
+
+bool Context::init(int width, int height, int ren_width, int ren_height) {
+	std::cout << "Initing SDL" << std::endl;
+
 	this->win_width = width;
 	this->win_height = height;
 	this->ren_width = ren_width;
 	this->ren_height = ren_height;
-}
-
-bool Context::init() {
-	std::cout << "Initing SDL" << std::endl;
 
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		return false;
@@ -40,6 +41,14 @@ bool Context::init() {
 void Context::swapBuffers(Framebuffer* fb) {
 	uint32_t deltaTicks = SDL_GetTicks() - ticks;
 	std::cout << "Frame time: " << deltaTicks << std::endl;
+	while (SDL_PollEvent(&ev)) {
+		if (ev.type == SDL_KEYDOWN) {
+			keymap[ev.key.keysym.sym] = true;
+		}
+		if (ev.type == SDL_KEYUP) {
+			keymap[ev.key.keysym.sym] = false;
+		}
+	}
 
 	SDL_RenderClear(ren);
 	SDL_UpdateTexture(tex, NULL, (fb->getPixels()), sizeof(uint32_t)*fb->getWidth());
@@ -54,4 +63,18 @@ Context::~Context() {
 	SDL_DestroyRenderer(ren);
 	SDL_DestroyWindow(win);
 	SDL_Quit();
+}
+
+bool Context::isKeyDown(SDL_Keycode key) {
+	if (keymap.find(key) == keymap.end()) {
+		keymap[key] = false;
+	}
+	return keymap[key];
+}
+
+Context* Context::getInstance() {
+	if (instance == NULL) {
+		instance = new Context();
+	}
+	return instance;
 }

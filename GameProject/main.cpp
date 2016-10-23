@@ -5,8 +5,7 @@
 #include "player.h"
 
 int main() {
-	Context context(640, 480, 640, 480);
-	context.init();
+	Context::getInstance()->init(640, 480, 640, 480);
 	Renderer ren(640, 480);
 	Sector s(-1.0f, 3.0f, Color(0, 255, 0), Color(255, 0, 0));
 	Wall* w = new Wall(Vector2(2.0f, 1.0f), Vector2(0.5f, 2.0f));
@@ -22,7 +21,8 @@ int main() {
 	while (true) {
 		p.update();
 		ren.drawSector(s, p);
-		context.swapBuffers(ren.getFramebuffer());
+		Context::getInstance()->swapBuffers(ren.getFramebuffer());
+		ren.getFramebuffer()->clear();
 	}
 	return 0;
 }

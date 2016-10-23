@@ -2,8 +2,12 @@
 #include <SDL2/SDL.h>
 #include "framebuffer.h"
 #include "renderer.h"
+#include <unordered_map>
+typedef std::unordered_map<Sint32, bool> Keymap;
+class Context;
 class Context {
 private:
+	static Context* instance;
 	SDL_Window* win;
 	SDL_Renderer* ren;
 	SDL_Texture* tex;
@@ -12,9 +16,14 @@ private:
 	int ren_width;
 	int ren_height;
 	uint32_t ticks;
+	Keymap keymap;
+	SDL_Event ev;
+
+	Context() {}
 public:
-	Context(int width, int height, int render_width, int render_height);
-	bool init();
+	bool init(int width, int height, int render_width, int render_height);
 	void swapBuffers(Framebuffer* fb);
+	bool isKeyDown(SDL_Keycode key);
 	~Context();
+	static Context* getInstance();
 };
