@@ -8,8 +8,8 @@
 Renderer::Renderer(int width, int height) : framebuffer(width, height) {
 	this->width = width;
 	this->height = height;
-	hfov = 45.0f;
-	vfov = 45.0f;
+	hfov = .73f * height;
+	vfov = .2 * height;
 }
 
 void Renderer::update() {
@@ -39,20 +39,20 @@ void Renderer::drawSector(Sector& s, Player& p) {
 		Vector2 near = Vector2(nearside, nearz);
 		Vector2 far = Vector2(farside, farz);
 		std::cout << "y " << cv1.y << std::endl;
-		if (cv1.y <= 0.5f || cv2.y <= 0.5f) { //wall is partly clipped by player's view frustrum
+		if (cv1.y <= 0.0f || cv2.y <= 0.0f) { //wall is partly clipped by player's view frustrum
 			std::cout << "wall behind" << std::endl;
-			continue;
+			//wwwwwwcontinue;
 			Color c(255, 255, 255);
 			drawVLine(25, 0, 640, c);
 
 			Vector2 intersect1, intersect2;
 			Vector2 neg_near = -near;
 			Vector2 neg_far = -far;
-			if (lineIntersect(cv1, cv2, neg_near, neg_far, intersect1)) {
+			if (!lineIntersect(cv1, cv2, neg_near, neg_far, intersect1)) {
 				continue;
 			}
 
-			if (lineIntersect(cv1, cv2, near, far, intersect2)) {
+			if (!lineIntersect(cv1, cv2, near, far, intersect2)) {
 				continue;
 			}
 			
@@ -104,7 +104,7 @@ void Renderer::drawSector(Sector& s, Player& p) {
 		for (int x = startx; x < endx; x++) {
 			int yceil = (x - x1) * (yceil2 - yceil1) / (x2 - x1) + yceil1; //clamp against draw lists later
 			int yfloor = (x - x1) * (yfloor2 - yfloor1) / (x2 - x1) + yfloor1;
-			int z = ((x - x1) * (cv2.y - cv1.y) / (x2 - x1) + cv1.y) * 65;
+			int z = ((x - x1) * (cv2.y - cv1.y) / (x2 - x1) + cv1.y) / 2.0f;
 			//int jj = 0;
 			Color c = Color(255 - z, 255 - z, 255 - z);
 			drawVLine(x, yfloor, yceil, c); //draw wall
@@ -116,6 +116,9 @@ void Renderer::drawSector(Sector& s, Player& p) {
 }
 
 void Renderer::drawVLine(float x, float bottom, float top, Color& color) {
+	if (x < 0 || x > 640) {
+		return;
+	}
 	float lowerY = clampf(bottom, 0, height);
 	float upperY = clampf(top, 0, height);
 

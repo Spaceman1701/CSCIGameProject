@@ -1,33 +1,24 @@
 #include "framebuffer.h"
 #include "renderer.h"
 #include "context.h"
-#include "sector.h"
-#include "player.h"
+#if 0
 
 int main() {
-	Context::getInstance()->init(640, 480, 640, 480);
-	Renderer ren(640, 480);
-	Sector s(-1.0f* 100, 3.0f * 100, Color(0, 255, 0), Color(255, 0, 0));
-	Wall* w = new Wall(Vector2(2.0f * 100, 1.0f * 100), Vector2(0.5f*100, 2.0f*100));
-	Wall* w1 = new Wall(Vector2(-0.5f * 100, 2.0f * 100), Vector2(-2.0f * 100, 1.0f * 100));
-	Wall* w2 = new Wall(Vector2(1.5f * 100, 2.1f * 100), Vector2(-1.5f * 100, 2.1f * 100));
-
-	s.addWall(w);
-	s.addWall(w1);
-	s.addWall(w2);
-
-	Player p;
-
+	Framebuffer fb(640, 480);
+	Context context(640, 480, 640, 480);
+	context.init();
+	fb.drawColorPixel(320, 240, 255, 255, 0);
+	fb.drawColorPixel(640, 480, 255, 0, 0);
 	while (true) {
-		p.update();
-		ren.drawSector(s, p);
-		Context::getInstance()->swapBuffers(ren.getFramebuffer());
-		ren.getFramebuffer()->clear();
+		for (int x = 1; x < 641; x++) {
+			for (int y = 1; y < 481; y++) {
+				fb.drawColorPixel(x, y, 255, 255, 255);
+			}
+		}
+		context.swapBuffers(&fb);
 	}
-	return 0;
 }
 
-#if 0
 int main() {
 	std::cout << "HHHHHHHHHEEELLLLOOOO LINUX" << std::endl;
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {

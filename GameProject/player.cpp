@@ -49,6 +49,6 @@ void Player::update() {
 }
 
 void Player::move(const Vector2& dir) {
-	position.x += dir.x;
-	position.y += dir.y;
+	position.x += dir.x * 10000;
+	position.y += dir.y * 100;
 }
