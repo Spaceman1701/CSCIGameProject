@@ -18,15 +18,15 @@ int main() {
 	Wall* w1 = new Wall(Vector2(-0.5f * 100, 2.0f * 100), Vector2(-2.0f * 100, 1.0f * 100));
 	Wall* w2 = new Wall(Vector2(1.5f * 100, 2.1f * 100), Vector2(-1.5f * 100, 2.1f * 100));
 
-	Wall* s1 = new Wall(v1, v2);
-	Wall* s2 = new Wall(v2, v3);
-	Wall* s3 = new Wall(v3, v4);
-	//Wall* s4 = new Wall(v4, v1);
+	Wall* s1 = new Wall(v1 * 5, v2 * 5);
+	Wall* s2 = new Wall(v2* 5, v3 * 5);
+	Wall* s3 = new Wall(v3 * 5, v4 * 5);
+	Wall* s4 = new Wall(v4 * 5, v1 * 5);
 
 	s.addWall(s1);
 	s.addWall(s2);
 	s.addWall(s3);
-	//s.addWall(s4);
+	s.addWall(s4);
 
 	Player p;
 

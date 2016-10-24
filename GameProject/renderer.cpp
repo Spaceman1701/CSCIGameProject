@@ -40,7 +40,10 @@ void Renderer::drawSector(Sector& s, Player& p) {
 		//float nearz = 1.0f;
 		std::cout << "y " << cv1.y << std::endl;
 		if (cv1.y <= 0.0f) {
-			cv1.x = lerp2(cv1.y, cv2.y, cv1.x, cv2.x, nearClip);
+			//(0.1-tz1)*(tx2-tx1)/(tz2-tz1)+tx1
+			//(0.1-tz2)*(tx1-tx2)/(tz1-tz2)+tx2
+			cv1.x = (nearClip - cv1.y)*(cv2.x - cv1.x) / (cv2.y - cv1.y) + cv1.x;
+			//cv1.x = lerp2(cv1.y, cv2.y, cv1.x, cv2.x, nearClip);
 			cv1.y = nearClip;
 		}
 		if (cv2.y <= 0.0f) {
@@ -74,10 +77,12 @@ void Renderer::drawSector(Sector& s, Player& p) {
 		for (int x = startx; x < endx; x++) {
 			int yceil = (x - x1) * (yceil2 - yceil1) / (x2 - x1) + yceil1; //clamp against draw lists later
 			int yfloor = (x - x1) * (yfloor2 - yfloor1) / (x2 - x1) + yfloor1;
-			int z = ((x - x1) * (cv2.y - cv1.y) / (x2 - x1) + cv1.y) / 2.0f;
+			int z = ((x - x1) * (cv2.y - cv1.y) / (x2 - x1) + cv1.y) / 10.0f;
 			//int jj = 0;
 			Color c = Color(255 - z, 255 - z, 255 - z);
-			drawVLine(x, yfloor, yceil, c); //draw wall
+			if (x != startx && x != endx) { //make a nice outline
+				drawVLine(x, yfloor + 1, yceil - 1, c); //draw wall
+			}
 			drawVLine(x, 0, yfloor, s.getFloorColor()); //draw floor;
 			drawVLine(x, yceil, height, s.getCeilColor());
 		}
