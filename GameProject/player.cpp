@@ -1,4 +1,5 @@
 #include "player.h"
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include "context.h"
 #include <SDL2/SDL_keycode.h>
@@ -44,11 +45,18 @@ void Player::update() {
 		angle -= 0.01f;
 	}
 
+	if (angle > 2 * M_PI) {
+		angle -= 2*M_PI;
+	}
+	if (angle < 2 * M_PI) {
+		angle += 2 * M_PI;
+	}
+
 	sinAngle = sinf(angle);
 	cosAngle = cosf(angle);
 }
 
 void Player::move(const Vector2& dir) {
-	position.x += dir.x * 10000;
-	position.y += dir.y * 100;
+	position.x += dir.x * 1000;
+	position.y += dir.y * 1000;
 }

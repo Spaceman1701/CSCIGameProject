@@ -7,14 +7,26 @@
 int main() {
 	Context::getInstance()->init(640, 480, 640, 480);
 	Renderer ren(640, 480);
-	Sector s(-1.0f* 100, 3.0f * 100, Color(0, 255, 0), Color(255, 0, 0));
+	Sector s(-1.0f* 100, 3.0f * 100, Color(100, 100, 100), Color(100, 100, 100));
+	Vector2 v1(100, -100);
+	Vector2 v2(100, 100);
+	Vector2 v3(-100, 100);
+	Vector2 v4(-100, -100);
+
+
 	Wall* w = new Wall(Vector2(2.0f * 100, 1.0f * 100), Vector2(0.5f*100, 2.0f*100));
 	Wall* w1 = new Wall(Vector2(-0.5f * 100, 2.0f * 100), Vector2(-2.0f * 100, 1.0f * 100));
 	Wall* w2 = new Wall(Vector2(1.5f * 100, 2.1f * 100), Vector2(-1.5f * 100, 2.1f * 100));
 
-	s.addWall(w);
-	s.addWall(w1);
-	s.addWall(w2);
+	Wall* s1 = new Wall(v1, v2);
+	Wall* s2 = new Wall(v2, v3);
+	Wall* s3 = new Wall(v3, v4);
+	//Wall* s4 = new Wall(v4, v1);
+
+	s.addWall(s1);
+	s.addWall(s2);
+	s.addWall(s3);
+	//s.addWall(s4);
 
 	Player p;
 

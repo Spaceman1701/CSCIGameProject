@@ -10,7 +10,8 @@ Renderer::Renderer(int width, int height) : framebuffer(width, height) {
 	this->height = height;
 	hfov = .73f * height;
 	vfov = .2 * height;
-}
+	nearClip = 1;
+	}
 
 void Renderer::update() {
 
@@ -22,7 +23,7 @@ Framebuffer* Renderer::getFramebuffer() {
 
 void Renderer::drawSector(Sector& s, Player& p) {
 	Vector2 playerLoc = p.getPosition();
-	float playerZ = 0.0f;
+	float playerZ = p.getHeight();
 
 	std::vector<Wall*> walls = s.getWalls();
 	for (Wall* w : walls) {
@@ -31,28 +32,36 @@ void Renderer::drawSector(Sector& s, Player& p) {
 		Vector2 cv1 = calcPlayerSpaceVec(v1, playerLoc, p.getAngle(), p.getCosAngle(), p.getSinAngle());
 		Vector2 cv2 = calcPlayerSpaceVec(v2, playerLoc, p.getAngle(), p.getCosAngle(), p.getSinAngle());
 
-		if (cv1.y <= 0 && cv2.y <= 0) {
+		if (cv1.y <= 0.0f && cv2.y <= 0.0f) {
+			//std::cout << "wall behind..." << std::endl;
 			continue; //wall is completely behind player
 		}
 
-		float nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
-		Vector2 near = Vector2(nearside, nearz);
-		Vector2 far = Vector2(farside, farz);
+		//float nearz = 1.0f;
 		std::cout << "y " << cv1.y << std::endl;
-		if (cv1.y <= 0.0f || cv2.y <= 0.0f) { //wall is partly clipped by player's view frustrum
-			std::cout << "wall behind" << std::endl;
-			//wwwwwwcontinue;
-			Color c(255, 255, 255);
-			drawVLine(25, 0, 640, c);
-
+		if (cv1.y <= 0.0f) {
+			cv1.x = lerp2(cv1.y, cv2.y, cv1.x, cv2.x, nearClip);
+			cv1.y = nearClip;
+		}
+		if (cv2.y <= 0.0f) {
+			cv2.x = lerp2(cv2.y, cv1.y, cv2.x, cv1.x, nearClip);
+			cv2.y = nearClip;
+		}
+		//if ((cv1.y <= 0 || cv2.y <= 0)) { //wall is partly behind player						  
+			/*
+			float nearz = 0.1f, farz = 50, nearside = 0.1f, farside = 200;
+			Vector2 near(nearside, nearz);
+			Vector2 far(farside, farz);
+			Vector2 neg_near = Vector2(-near.x, near.y);
+			Vector2 neg_far = Vector2(-far.x, far.y);
 			Vector2 intersect1, intersect2;
-			Vector2 neg_near = -near;
-			Vector2 neg_far = -far;
-			if (!lineIntersect(cv1, cv2, neg_near, neg_far, intersect1)) {
+			if (!qLineIntersect(cv1, cv2, neg_near, neg_far, intersect1)) {
+				SDL_assert(false);
 				continue;
 			}
 
-			if (!lineIntersect(cv1, cv2, near, far, intersect2)) {
+			if (!qLineIntersect(cv1, cv2, near, far, intersect2)) {
+				SDL_assert(false);
 				continue;
 			}
 			
@@ -76,7 +85,7 @@ void Renderer::drawSector(Sector& s, Player& p) {
 					cv2.y = intersect2.y;
 				}
 			}
-		}
+		} */
 
 		Vector2 s1 = getPerspectiveScale(cv1); //scale vector 1
 		Vector2 s2 = getPerspectiveScale(cv2); //scale vector 2
