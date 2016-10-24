@@ -47,45 +47,6 @@ void Renderer::drawSector(Sector& s, Player& p) {
 			cv2.x = lerp2(cv2.y, cv1.y, cv2.x, cv1.x, nearClip);
 			cv2.y = nearClip;
 		}
-		//if ((cv1.y <= 0 || cv2.y <= 0)) { //wall is partly behind player						  
-			/*
-			float nearz = 0.1f, farz = 50, nearside = 0.1f, farside = 200;
-			Vector2 near(nearside, nearz);
-			Vector2 far(farside, farz);
-			Vector2 neg_near = Vector2(-near.x, near.y);
-			Vector2 neg_far = Vector2(-far.x, far.y);
-			Vector2 intersect1, intersect2;
-			if (!qLineIntersect(cv1, cv2, neg_near, neg_far, intersect1)) {
-				SDL_assert(false);
-				continue;
-			}
-
-			if (!qLineIntersect(cv1, cv2, near, far, intersect2)) {
-				SDL_assert(false);
-				continue;
-			}
-			
-			if (cv1.y < nearz) {
-				if (intersect1.y > 0) {
-					cv1.x = intersect1.x;
-					cv1.y = intersect1.y;
-				}
-				else {
-					cv1.x = intersect2.x;
-					cv1.y = intersect2.y;
-				}
-			}
-			if (cv2.y < nearz) {
-				if (intersect1.y > 0) {
-					cv2.x = intersect1.x;
-					cv2.y = intersect1.y;
-				}
-				else {
-					cv2.x = intersect2.x;
-					cv2.y = intersect2.y;
-				}
-			}
-		} */
 
 		Vector2 s1 = getPerspectiveScale(cv1); //scale vector 1
 		Vector2 s2 = getPerspectiveScale(cv2); //scale vector 2
