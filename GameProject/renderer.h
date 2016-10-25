@@ -6,32 +6,38 @@
 #include "player.h"
 #include "map.h"
 #include <queue>
+struct DrawSector {
+	Sector* sector;
+	int minX;
+	int maxX;
+};
 class Renderer {
-	struct DrawSector {
-		Sector* sector;
-		int minX;
-		int maxX;
-	};
+
 
 	typedef std::queue<DrawSector> DrawList;
 private:
 	Framebuffer framebuffer;
 	int width;
 	int height;
+	
 	float hfov;
 	float vfov;
 	float fDist;
 	float nearClip;
+
+	int top[640];
+	int bot[640];
 	
 
 	Vector2 calcPlayerSpaceVec(Vector2& vec, Vector2& origin, float angle, float cos, float sin);
 	Vector2 getPerspectiveScale(Vector2& vec);
 	void drawSector(DrawSector& s, Player& p, DrawList& drawList, int top[], int bottom[]);
+	int project(int center, int value, float scale);
 public:
 	Renderer(int width, int height);
 	void update();
 	Framebuffer* getFramebuffer();
 	
 	void drawVLine(int x, int lower, int upper, Color& color);
-	void drawView(Player& p, Map& map);
+	void drawView(Player& p, Map& map, Sector* s);
 };

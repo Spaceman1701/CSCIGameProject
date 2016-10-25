@@ -1,6 +1,6 @@
 #include "sector.h"
 
-std::vector<Wall*>& Sector::getWalls() {
+std::vector<Wall*> Sector::getWalls() {
 	return walls;
 }
 
@@ -24,7 +24,7 @@ Sector::Sector(float floor, float ceil, Color floor_color, Color ceil_color, Col
 	this->ceil_step_color = ceil_step_color;
 }
 
-Sector::Sector(Sector* s) {
+/*Sector::Sector(Sector* s) {
 	this->floor_height = s->floor_height;
 	this->ceil_height = s->ceil_height;
 	this->floorColor = s->floorColor;
@@ -32,7 +32,7 @@ Sector::Sector(Sector* s) {
 	this->floor_step_color = s->floor_step_color;
 	this->ceil_step_color = s->ceil_step_color;
 	this->walls = s->walls;
-}
+}*/
 
 Color& Sector::getFloorColor() {
 	return floorColor;

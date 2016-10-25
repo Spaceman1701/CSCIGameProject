@@ -7,5 +7,5 @@ private:
 	SectorList sectors;
 public:
 	void addSector(Sector* s);
-	SectorList& getSectors();
+	SectorList getSectors();
 };

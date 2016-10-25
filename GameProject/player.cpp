@@ -44,9 +44,9 @@ void Player::fullSectorSearch(Map& map) {
 }
 
 void Player::update(Map& map) {
-	if (!current_sector || !pointInsideSector(current_sector, position)) {
+	//if (!current_sector || !pointInsideSector(current_sector, position)) {
 		fullSectorSearch(map);
-	}
+	//}
 
 	if (angle > 2 * M_PI) {
 		angle -= 2 * (float)M_PI;

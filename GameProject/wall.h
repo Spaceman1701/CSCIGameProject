@@ -9,7 +9,7 @@ private:
 	Sector* sector;
 public:
 	Wall(Vector2 vertex1, Vector2 vertex2);
-	Wall(const Vector2& vertex1, const Vector2& vertex2, Sector* sector);
+	Wall(const Vector2 vertex1, const Vector2 vertex2, Sector* sector);
 	Wall(const Wall* w);
 
 	Vector2* getPoints();
