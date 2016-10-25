@@ -33,31 +33,26 @@ void Renderer::drawSector(Sector& s, Player& p) {
 		Vector2 cv2 = calcPlayerSpaceVec(v2, playerLoc, p.getAngle(), p.getCosAngle(), p.getSinAngle());
 
 		if (cv1.y <= 0.0f && cv2.y <= 0.0f) {
-			//std::cout << "wall behind..." << std::endl;
 			continue; //wall is completely behind player
 		}
 
-		//float nearz = 1.0f;
 		std::cout << "y " << cv1.y << std::endl;
 		if (cv1.y <= 0.0f && cv2.y > 0) {
-			//(0.1-tz1)*(tx2-tx1)/(tz2-tz1)+tx1
-			//(0.1-tz2)*(tx1-tx2)/(tz1-tz2)+tx2
-			//cv1.x = (nearClip - cv1.y)*(cv2.x - cv1.x) / (cv2.y - cv1.y) + cv1.x;
-			cv1.x = lerp2(cv2.y, cv1.y, cv2.x, cv1.x, nearClip);//lerp2(cv1.y, cv2.y, cv1.x, cv2.x, nearClip);
+
+			cv1.x = lerp2(cv2.y, cv1.y, cv2.x, cv1.x, nearClip);
 			cv1.y = nearClip;
 		}
 		if (cv2.y <= 0.0f) {
-			cv2.x = lerp2(cv1.y, cv2.y, cv1.x, cv2.x, nearClip); //lerp2(cv2.y, cv1.y, cv2.x, cv1.x, nearClip);
+			cv2.x = lerp2(cv1.y, cv2.y, cv1.x, cv2.x, nearClip); 
 			cv2.y = nearClip;
 		}
 		Vector2 s1 = getPerspectiveScale(cv1); //scale vector 1
 		Vector2 s2 = getPerspectiveScale(cv2); //scale vector 2
 
-		int x1 = width/2.0 - (int)(cv1.x * s1.x); //screen x location
-		int x2 = width/2.0 - (int)(cv2.x * s2.x);
+		int x1 = width/2.0 + (int)(cv1.x * s1.x); //screen x location
+		int x2 = width/2.0 + (int)(cv2.x * s2.x);
 
 		if (x1 >= x2) { //wall takesup 0 or less pixels
-			//drawVLine(10, 0, 480);
 			continue; //go to the next wall
 		}
 
@@ -77,13 +72,9 @@ void Renderer::drawSector(Sector& s, Player& p) {
 			int yceil = (x - x1) * (yceil2 - yceil1) / (x2 - x1) + yceil1; //clamp against draw lists later
 			int yfloor = (x - x1) * (yfloor2 - yfloor1) / (x2 - x1) + yfloor1;
 			int z = ((x - x1) * (cv2.y - cv1.y) / (x2 - x1) + cv1.y) / 10.0f;
-			if (yceil > height) {
-				//SDL_assert(false);
-			}
-			//int jj = 0;
+
 			Color c = Color(255, 255, 255);
-			Color bot = Color(255, 0, 0);
-			Color top = Color(0, 0, 255);
+
 			if (x != startx && x != endx) { //make a nice outline
 				drawVLine(x, yfloor + 1, yceil -1, c); //draw wall
 			}

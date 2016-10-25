@@ -8,10 +8,10 @@ int main() {
 	Context::getInstance()->init(640, 480, 640, 480);
 	Renderer ren(640, 480);
 	Sector s(-1.0f* 100, 3.0f * 100, Color(100, 100, 100), Color(100, 100, 100));
-	Vector2 v1(100, -100);
-	Vector2 v2(100, 100);
-	Vector2 v3(-100, 100);
-	Vector2 v4(-100, -100);
+	Vector2 v1(-100, -100);
+	Vector2 v2(-100, 100);
+	Vector2 v3(100, 100);
+	Vector2 v4(100, -100);
 
 
 	Wall* w = new Wall(Vector2(2.0f * 100, 1.0f * 100), Vector2(0.5f*100, 2.0f*100));
