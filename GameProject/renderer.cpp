@@ -37,8 +37,7 @@ void Renderer::drawSector(Sector& s, Player& p) {
 		}
 
 		std::cout << "y " << cv1.y << std::endl;
-		if (cv1.y <= 0.0f && cv2.y > 0) {
-
+		if (cv1.y <= 0.0f) {
 			cv1.x = lerp2(cv2.y, cv1.y, cv2.x, cv1.x, nearClip);
 			cv1.y = nearClip;
 		}

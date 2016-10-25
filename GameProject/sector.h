@@ -2,6 +2,7 @@
 #include "wall.h"
 #include <vector>
 #include "color.h"
+class Wall;
 class Sector {
 private:
 	std::vector<Wall*> walls;

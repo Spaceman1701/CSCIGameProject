@@ -6,6 +6,7 @@ Context* Context::instance = NULL;
 
 bool Context::init(int width, int height, int ren_width, int ren_height) {
 	std::cout << "Initing SDL" << std::endl;
+	should_quit = false;
 
 	this->win_width = width;
 	this->win_height = height;
@@ -48,6 +49,10 @@ void Context::swapBuffers(Framebuffer* fb) {
 		if (ev.type == SDL_KEYUP) {
 			keymap[ev.key.keysym.sym] = false;
 		}
+		if (ev.type == SDL_QUIT) {
+			should_quit = true;
+			return; //just gonna quit, no reason to update display
+		}
 	}
 
 	SDL_RenderClear(ren);
@@ -56,6 +61,13 @@ void Context::swapBuffers(Framebuffer* fb) {
 	SDL_RenderPresent(ren);
 	SDL_UpdateWindowSurface(win);
 	ticks = SDL_GetTicks();
+}
+
+bool Context::getShouldQuit() {
+	return should_quit;
+}
+void Context::quit() {
+	should_quit = true;
 }
 
 Context::~Context() {

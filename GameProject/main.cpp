@@ -7,10 +7,14 @@
 int main() {
 	Context::getInstance()->init(640, 480, 640, 480);
 	Renderer ren(640, 480);
-	Sector s(-1.0f* 100, 3.0f * 100, Color(100, 100, 100), Color(100, 100, 100));
+	Sector s(-100, 500, Color(100, 100, 100), Color(100, 100, 100));
 	Vector2 v1(-100, -100);
+	
 	Vector2 v2(-100, 100);
+	Vector2 p0(-50, 100);
+	Vector2 p1(50, 100);
 	Vector2 v3(100, 100);
+
 	Vector2 v4(100, -100);
 
 	Wall* s1 = new Wall(v1 * 5, v2 * 5);
@@ -24,11 +28,11 @@ int main() {
 	s.addWall(s4);
 
 	Player p;
-
-	while (true) {
+	Context* c = Context::getInstance();
+	while (!c->getShouldQuit()) {
 		p.update();
 		ren.drawSector(s, p);
-		Context::getInstance()->swapBuffers(ren.getFramebuffer());
+		c->swapBuffers(ren.getFramebuffer());
 		ren.getFramebuffer()->clear();
 	}
 	return 0;

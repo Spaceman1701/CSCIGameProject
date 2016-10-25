@@ -18,12 +18,15 @@ private:
 	uint32_t ticks;
 	Keymap keymap;
 	SDL_Event ev;
+	bool should_quit;
 
 	Context() {}
 public:
 	bool init(int width, int height, int render_width, int render_height);
 	void swapBuffers(Framebuffer* fb);
 	bool isKeyDown(SDL_Keycode key);
+	bool getShouldQuit();
+	void quit();
 	~Context();
 	static Context* getInstance();
 };
