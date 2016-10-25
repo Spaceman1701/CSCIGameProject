@@ -25,6 +25,8 @@ private:
 	float fDist;
 	float nearClip;
 
+	int avar;
+
 	int top[640];
 	int bot[640];
 	

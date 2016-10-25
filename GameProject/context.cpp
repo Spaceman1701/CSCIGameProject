@@ -56,7 +56,7 @@ void Context::swapBuffers(Framebuffer* fb) {
 	}
 
 	SDL_RenderClear(ren);
-	SDL_UpdateTexture(tex, NULL, (fb->getPixels()), sizeof(uint32_t)*fb->getWidth());
+	SDL_UpdateTexture(tex, NULL, (fb->getPixels()), (int)(sizeof(uint32_t)*fb->getWidth()));
 	SDL_RenderCopy(ren, tex, NULL, NULL);
 	SDL_RenderPresent(ren);
 	SDL_UpdateWindowSurface(win);

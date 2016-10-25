@@ -9,6 +9,7 @@ Player::Player() {
 	height = 5;
 	speed = 3;
 	turn_speed = 0.05f;
+	current_sector = NULL;
 }
 
 Vector2& Player::getPosition() {
@@ -44,9 +45,9 @@ void Player::fullSectorSearch(Map& map) {
 }
 
 void Player::update(Map& map) {
-	//if (!current_sector || !pointInsideSector(current_sector, position)) {
+	if (!current_sector || !pointInsideSector(current_sector, position)) {
 		fullSectorSearch(map);
-	//}
+	}
 
 	if (angle > 2 * M_PI) {
 		angle -= 2 * (float)M_PI;
