@@ -1,6 +1,5 @@
 #include "framebuffer.h"
-#include <stdlib.h>
-#include <string.h>
+#include <algorithm>
 
 Framebuffer::Framebuffer(int width, int height) {
 	this->width = width;
@@ -27,5 +26,5 @@ Framebuffer::~Framebuffer() {
 }
 
 void Framebuffer::clear() {
-	memset(colorBuffer, 0, sizeof(uint32_t)*width*height);
-}
+	std::fill(colorBuffer, colorBuffer + width*height, 0); //probably somewhat safer then memset
+} 

@@ -1,6 +1,6 @@
 #include "sector.h"
 
-std::vector<Wall*> Sector::getWalls() {
+std::vector<Wall*>& Sector::getWalls() {
 	return walls;
 }
 

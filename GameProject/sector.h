@@ -17,7 +17,7 @@ private:
 	int sector_num;
 
 public:
-	std::vector<Wall*> getWalls();
+	std::vector<Wall*>& getWalls();
 
 	void addWall(Wall* wall);
 

@@ -15,6 +15,7 @@ class Renderer {
 
 
 	typedef std::queue<DrawSector> DrawList;
+	typedef std::vector<int> ClipList;
 private:
 	Framebuffer framebuffer;
 	int width;
@@ -27,19 +28,19 @@ private:
 
 	int avar;
 
-	int top[640];
-	int bot[640];
+	ClipList top;
+	ClipList bot;
 	
 
 	Vector2 calcPlayerSpaceVec(Vector2& vec, Vector2& origin, float angle, float cos, float sin);
 	Vector2 getPerspectiveScale(Vector2& vec);
-	void drawSector(DrawSector& s, Player& p, DrawList& drawList, int top[], int bottom[]);
-	int project(int center, int value, float scale);
+	void drawSector(DrawSector& s, Player& p, DrawList& drawList, ClipList& top, ClipList& bottom);
+	int project(int center, float value, float scale);
 public:
 	Renderer(int width, int height);
 	void update();
 	Framebuffer* getFramebuffer();
 	
 	void drawVLine(int x, int lower, int upper, Color& color);
-	void drawView(Player& p, Map& map, Sector* s);
+	void drawView(Player& p, Map& map);
 };

@@ -72,7 +72,7 @@ int main() {
 	while (!c->getShouldQuit()) {
 		p.update(map);
 		//std::cout << "PLOC:          " << p.getCurrentSector()->getSectorNum() << std::endl;
-		ren.drawView(p, map, s);
+		ren.drawView(p, map);
 		c->swapBuffers(ren.getFramebuffer());
 		ren.getFramebuffer()->clear();
 	}

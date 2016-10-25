@@ -7,7 +7,7 @@
 #include <math.h>
 #include <string.h>
 
-Renderer::Renderer(int width, int height) : framebuffer(width, height) {
+Renderer::Renderer(int width, int height) : framebuffer(width, height), top(width), bot(width) {
 	this->width = width;
 	this->height = height;
 	
@@ -16,9 +16,6 @@ Renderer::Renderer(int width, int height) : framebuffer(width, height) {
 	hfov = .73f * (float)height;
 	vfov = .2f * (float)height;
 	nearClip = 5.f;
-
-	//top = new int[width];
-	//bot = new int[height];
 }
 
 void Renderer::update() {
@@ -30,7 +27,7 @@ Framebuffer* Renderer::getFramebuffer() {
 }
 
 
-void Renderer::drawView(Player& p, Map& map, Sector* s) {
+void Renderer::drawView(Player& p, Map& map) {
 	Sector* playerSec = p.getCurrentSector(); //later
 	
 	for (int i = 0; i < width; ++i) {
@@ -40,16 +37,15 @@ void Renderer::drawView(Player& p, Map& map, Sector* s) {
 	DrawList drawList;
 	DrawSector playerDS = {playerSec, 0, width};
 	drawList.push(playerDS);
-	//drawSector(playerDS, p, drawList, top, bot);
 
-	while (!drawList.empty()) {
+	while (!drawList.empty()) { //draw all the sectors. Later: draw until all columns are filled
 		DrawSector ds = drawList.front();
 		drawList.pop();
 		drawSector(ds, p, drawList, top, bot);
 	}
 }
 
-void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& drawList, int top[], int bot[]) {
+void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& drawList, ClipList& top, ClipList& bot) {
 	Vector2 playerLoc = p.getPosition();
 	float playerZ = p.getHeight();
 	Sector s = *ds.sector;
@@ -78,15 +74,15 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& drawList, int top
 		Vector2 s1 = getPerspectiveScale(cv1); //scale vector 1
 		Vector2 s2 = getPerspectiveScale(cv2); //scale vector 2
 
-		int x1 = project(width / 2, (int)cv1.x, s1.x); //project along each axis independantly for performance reasons
-		int x2 = project(width / 2, (int)cv2.x, s2.x);
+		int x1 = project(width / 2, cv1.x, s1.x); //project along each axis independantly for performance reasons
+		int x2 = project(width / 2, cv2.x, s2.x);
 
 		if (x1 >= x2 || x1 > ds.maxX || x2 < ds.minX) { //wall takesup 0 or less pixels
 			continue; //go to the next wall
 		}
 
-		int cceilz = (int)(s.getCeilHeight() - playerZ);
-		int cfloorz = (int)(s.getFloorHeight() - playerZ);
+		float cceilz = s.getCeilHeight() - playerZ;
+		float cfloorz = s.getFloorHeight() - playerZ;
 
 		int yceil1 = project(height / 2, cceilz, s1.y);
 		int yfloor1 = project(height / 2, cfloorz, s1.y);
@@ -94,10 +90,11 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& drawList, int top
 		int yceil2 = project(height / 2, cceilz, s2.y);
 		int yfloor2 = project(height / 2, cfloorz, s2.y);
 
-		int nyceilz, nyfloorz, nyceil1, nyfloor1, nyceil2, nyfloor2;
+		float nyceilz, nyfloorz;
+		int nyceil1, nyfloor1, nyceil2, nyfloor2;
 		if (nSector) {
-			nyceilz = (int)(w->getLinkedSector()->getCeilHeight() - p.getHeight());
-			nyfloorz = (int)(w->getLinkedSector()->getFloorHeight() - p.getHeight());
+			nyceilz = w->getLinkedSector()->getCeilHeight() - p.getHeight();
+			nyfloorz = w->getLinkedSector()->getFloorHeight() - p.getHeight();
 
 			nyceil1 = project(height / 2, nyceilz, s1.y);
 			nyfloor1 = project(height / 2, nyfloorz, s1.y);
@@ -178,6 +175,6 @@ Vector2 Renderer::getPerspectiveScale(Vector2& vec) {
 	return Vector2(xscale, yscale);
 }
 
-int Renderer::project(int center, int value, float scale) {
-	return center + (value * (int)scale);
+int Renderer::project(int center, float value, float scale) {
+	return center + (int)(value * scale);
 }
