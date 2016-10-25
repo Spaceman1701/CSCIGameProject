@@ -21,5 +21,5 @@ public:
 	void update();
 	Framebuffer* getFramebuffer();
 	void drawSector(Sector& s, Player& p);
-	void drawVLine(float x, float lower, float upper, Color& color);
+	void drawVLine(int x, int lower, int upper, Color& color);
 };

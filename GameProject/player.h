@@ -7,7 +7,10 @@ private:
 	float angle;
 	float cosAngle;
 	float sinAngle;
+	float speed;
+	float turn_speed;
 public:
+	Player();
 	Vector2& getPosition();
 	float getHeight();
 	float getAngle();
@@ -15,4 +18,5 @@ public:
 	float getSinAngle();
 	void update();
 	void move(const Vector2& dir);
+	void moveRelative(const Vector2& rel_dir);
 };

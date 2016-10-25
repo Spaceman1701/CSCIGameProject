@@ -1,7 +1,17 @@
 #include "game_math.h"
 #include "vector2.h"
 
-float clampf(float v, float min, float max) {
+float clampf(float v, float min, float max) { //probably should just use templates for this
+	if (v < min) {
+		return min;
+	}
+	if (v > max) {
+		return max;
+	}
+	return v;
+}
+
+int clampi(int v, int min, int max) {
 	if (v < min) {
 		return min;
 	}

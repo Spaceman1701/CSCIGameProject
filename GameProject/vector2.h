@@ -5,14 +5,16 @@ public:
 	float y;
 
 	Vector2(float x, float y);
-	Vector2(Vector2* vec);
-
+	Vector2(const Vector2* vec);
 	Vector2();
 
-	float mag();
-	float mag2();
+	float mag() const;
+	float mag2() const;
 
 	float angleTo(Vector2& other);
+
+	void normSelf();
+	Vector2 norm() const;
 
 	inline float vectorPoduct(const Vector2& other) {
 		return x * other.y - other.x * y;

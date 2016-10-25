@@ -49,8 +49,8 @@ void Renderer::drawSector(Sector& s, Player& p) {
 		Vector2 s1 = getPerspectiveScale(cv1); //scale vector 1
 		Vector2 s2 = getPerspectiveScale(cv2); //scale vector 2
 
-		int x1 = width/2.0 + (int)(cv1.x * s1.x); //screen x location
-		int x2 = width/2.0 + (int)(cv2.x * s2.x);
+		int x1 = width/ 2 + (int)(cv1.x * s1.x); //screen x location
+		int x2 = width/ 2 + (int)(cv2.x * s2.x);
 
 		if (x1 >= x2) { //wall takesup 0 or less pixels
 			continue; //go to the next wall
@@ -85,12 +85,12 @@ void Renderer::drawSector(Sector& s, Player& p) {
 	}
 }
 
-void Renderer::drawVLine(float x, float bottom, float top, Color& color) {
+void Renderer::drawVLine(int x, int bottom, int top, Color& color) {
 	if (x < 0 || x > 640) {
 		return;
 	}
-	float lowerY = clampf(bottom, 0, height);
-	float upperY = clampf(top, 0, height);
+	int lowerY = clampi(bottom, 0, height);
+	int upperY = clampi(top, 0, height);
 
 	for (int y = lowerY; y < upperY; y++) {
 		framebuffer.drawColorPixel(x, y, color.getColor());

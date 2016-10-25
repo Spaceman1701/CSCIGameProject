@@ -13,11 +13,6 @@ int main() {
 	Vector2 v3(100, 100);
 	Vector2 v4(100, -100);
 
-
-	Wall* w = new Wall(Vector2(2.0f * 100, 1.0f * 100), Vector2(0.5f*100, 2.0f*100));
-	Wall* w1 = new Wall(Vector2(-0.5f * 100, 2.0f * 100), Vector2(-2.0f * 100, 1.0f * 100));
-	Wall* w2 = new Wall(Vector2(1.5f * 100, 2.1f * 100), Vector2(-1.5f * 100, 2.1f * 100));
-
 	Wall* s1 = new Wall(v1 * 5, v2 * 5);
 	Wall* s2 = new Wall(v2* 5, v3 * 5);
 	Wall* s3 = new Wall(v3 * 5, v4 * 5);
