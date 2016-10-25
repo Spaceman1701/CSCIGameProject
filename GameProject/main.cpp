@@ -46,15 +46,15 @@ int main() {
 	s.addWall(si3);
 	s.addWall(si4);
 
-	Vector2 s2v1(-100, 100);
-	Vector2 s2v2(-100, 200);
-	Vector2 s2v3(100, 200);
-	Vector2 s2v4(100, 100);
+	Vector2 s2v1(-50, 100);
+	Vector2 s2v2(-50, 200);
+	Vector2 s2v3(50, 200);
+	Vector2 s2v4(50, 100);
 
 	Wall* s2s1 = new Wall(s2v1 * 5, s2v2 * 5);
 	Wall* s2s2 = new Wall(s2v2 * 5, s2v3 * 5);
 	Wall* s2s3 = new Wall(s2v3 * 5, s2v4 * 5);
-	Wall* s2s4 = new Wall(s2v4 * 5, s2v1 * 5);
+	Wall* s2s4 = new Wall(s2v4 * 5, s2v1 * 5, &s);
 
 	s2.addWall(s2s1);
 	s2.addWall(s2s2);

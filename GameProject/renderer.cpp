@@ -115,6 +115,10 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& drawList, int top
 		for (int x = startx; x < endx; x++) {
 			int yceil = (x - x1) * (yceil2 - yceil1) / (x2 - x1) + yceil1; //clamp against draw lists later
 			int yfloor = (x - x1) * (yfloor2 - yfloor1) / (x2 - x1) + yfloor1;
+
+			yceil = clampi(yceil, bot[x], top[x]);
+			yfloor = clampi(yfloor, bot[x], top[x]);
+
 			int z = ((x - x1) * (cv2.y - cv1.y) / (x2 - x1) + cv1.y) / 10.0f;
 
 			drawVLine(x, bot[x], yfloor, s.getFloorColor()); //draw floor;
@@ -123,7 +127,7 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& drawList, int top
 			Color c = Color(255, 255, 255);
 
 			if (nSector != NULL) { //draw step up and step down
-				int nyceil = (x - x1) * (nyceil2 - nyceil1) / (x2 - x1) + nyceil1; //clamp against draw lists later
+				int nyceil = (x - x1) * (nyceil2 - nyceil1) / (x2 - x1) + nyceil1;
 				int nyfloor = (x - x1) * (nyfloor2 - nyfloor1) / (x2 - x1) + nyfloor1;
 				top[x] = fminf(nyceil, yceil);
 				bot[x] = fmaxf(nyfloor, yfloor);
@@ -146,7 +150,7 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& drawList, int top
 }
 
 void Renderer::drawVLine(int x, int bottom, int top, Color& color) {
-	if (x < 0 || x > 640) {
+	if (x < 0 || x > 640 || bottom > top) {
 		return;
 	}
 	int lowerY = clampi(bottom, 0, height);
