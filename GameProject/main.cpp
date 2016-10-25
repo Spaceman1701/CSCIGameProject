@@ -3,93 +3,73 @@
 #include "context.h"
 #include "sector.h"
 #include "player.h"
+#include "map.h"
 
 int main() {
 	Context::getInstance()->init(640, 480, 640, 480);
 	Renderer ren(640, 480);
-	Sector s(-100, 500, Color(100, 100, 100), Color(100, 100, 100));
-	Vector2 v1(-100, -100);
+
+	Sector s(-100, 500, Color(100, 100, 100), Color(100, 100, 100), Color(0, 0, 0), Color(0,0,0));
+	Sector s2(-50, 450, Color(255, 0, 0), Color(0, 255, 0), Color(255, 0, 0), Color(0, 255, 0));
+
+
+	Vector2 offset(0, 200);
+
+
+	Vector2 sv1(-100, -100);
 	
-	Vector2 v2(-100, 100);
-	Vector2 p0(-50, 100);
-	Vector2 p1(50, 100);
-	Vector2 v3(100, 100);
+	Vector2 sv2(-100, 100);
+	Vector2 sp0(-50, 100);
+	Vector2 sp1(50, 100);
+	Vector2 sv3(100, 100);
 
-	Vector2 v4(100, -100);
+	Vector2 sv4(100, -100);
 
-	Wall* s1 = new Wall(v1 * 5, v2 * 5);
-	Wall* s2 = new Wall(v2* 5, v3 * 5);
-	Wall* s3 = new Wall(v3 * 5, v4 * 5);
-	Wall* s4 = new Wall(v4 * 5, v1 * 5);
 
-	s.addWall(s1);
-	s.addWall(s2);
-	s.addWall(s3);
-	s.addWall(s4);
+
+
+	Wall* si1 = new Wall(sv1 * 5, sv2 * 5);
+
+	Wall* si2p0 = new Wall(sv2 * 5, sp0 * 5);
+	Wall* portal = new Wall(sp0 * 5, sp1 * 5, &s2);
+	Wall* si2p1 = new Wall(sp1 * 5, sv3 * 5);
+
+	Wall* si3 = new Wall(sv3 * 5, sv4 * 5);
+	Wall* si4 = new Wall(sv4 * 5, sv1 * 5);
+
+	s.addWall(si1);
+	s.addWall(si2p0);
+	s.addWall(portal);
+	s.addWall(si2p1);
+	s.addWall(si3);
+	s.addWall(si4);
+
+	Vector2 s2v1(-50, 100);
+	Vector2 s2v2(-50, 200);
+	Vector2 s2v3(50, 200);
+	Vector2 s2v4(50, 100);
+
+	Wall* s2s1 = new Wall(s2v1 * 5, s2v2 * 5);
+	Wall* s2s2 = new Wall(s2v2 * 5, s2v3 * 5);
+	Wall* s2s3 = new Wall(s2v3 * 5, s2v4 * 5);
+	Wall* s2s4 = new Wall(s2v4 * 5, s2v1 * 5);
+
+	s2.addWall(s2s1);
+	s2.addWall(s2s2);
+	s2.addWall(s2s3);
+	s2.addWall(s2s4);
+
+	Map map;
+	map.addSector(&s);
+	map.addSector(&s2);
 
 	Player p;
 	Context* c = Context::getInstance();
 	while (!c->getShouldQuit()) {
 		p.update();
-		ren.drawSector(s, p);
+		ren.drawView(p, map);
 		c->swapBuffers(ren.getFramebuffer());
 		ren.getFramebuffer()->clear();
 	}
 	return 0;
 }
-
-#if 0
-int main() {
-	std::cout << "HHHHHHHHHEEELLLLOOOO LINUX" << std::endl;
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-		return -1;
-	}
-
-	SDL_Window* win = SDL_CreateWindow("Game", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
-	if (win == NULL) {
-		SDL_Quit();
-		return -1;
-	}
-	SDL_Renderer* ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
-	if (ren == NULL) {
-		SDL_DestroyWindow(win);
-		SDL_Quit();
-		return -1;
-	}
-
-	bool quit = false;
-	SDL_Event e;
-	int offset = 0;
-	while (!quit) {
-		while (SDL_PollEvent(&e)) {
-			if (e.type == SDL_QUIT) {
-				quit = true;
-			}
-			if (e.type == SDL_KEYDOWN) {
-				if (e.key.keysym.sym == SDLK_ESCAPE) {
-					quit = true;
-				}
-			}
-		}
-		SDL_Rect rect = SDL_Rect();
-		rect.x = offset;
-		rect.y = 100;
-		rect.h = 100;
-		rect.w = 100;
-		SDL_SetRenderDrawColor(ren, 255, 255, 255, 255);
-		SDL_RenderDrawRect(ren, &rect);
-		SDL_SetRenderDrawColor(ren, 0, 0, 0, 0);
-		SDL_RenderPresent(ren);
-		SDL_RenderClear(ren);
-		offset++;
-		if (offset > 640) {
-			offset = 0;
-		}
-	}
-
-	SDL_DestroyWindow(win);
-	SDL_DestroyRenderer(ren);
-	SDL_Quit();
-	return 0;
-}
-#endif

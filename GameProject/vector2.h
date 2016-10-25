@@ -19,6 +19,11 @@ public:
 	inline float vectorPoduct(const Vector2& other) {
 		return x * other.y - other.x * y;
 	}
+
+	inline void operator+=(const Vector2& right) {
+		x += right.x;
+		y += right.y;
+	}
 };
 
 inline Vector2 operator*(const Vector2& left, float right) {

@@ -39,6 +39,9 @@
     <ClCompile Include="player.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framebuffer.h">
@@ -66,6 +69,9 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="color.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

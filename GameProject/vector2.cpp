@@ -9,9 +9,8 @@ Vector2::Vector2(const Vector2* vec) {
 	y = vec->y;
 }
 
-Vector2::Vector2() {
-	x = 0.0f;
-	y = 0.0f;
+Vector2::Vector2() : Vector2(0.0f, 0.0f){
+
 }
 
 float Vector2::mag() const{

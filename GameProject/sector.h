@@ -10,6 +10,10 @@ private:
 	float ceil_height;
 	Color floorColor;
 	Color ceilColor;
+
+	Color floor_step_color;
+	Color ceil_step_color;
+
 public:
 	std::vector<Wall*>& getWalls();
 
@@ -20,6 +24,9 @@ public:
 
 	Color& getFloorColor();
 	Color& getCeilColor();
+	Color& getFloorStepColor();
+	Color& getCeilStepColor();
 
-	Sector(float floor, float ceil, Color floorColor, Color ceilColor);
+	Sector(float floor, float ceil, Color floorColor, Color ceilColor, Color floor_step_color, Color ceil_step_color);
+	Sector(Sector* s);
 };
