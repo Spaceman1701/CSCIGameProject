@@ -78,7 +78,7 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& drawList, int top
 		int x1 = width/ 2 + (int)(cv1.x * s1.x); //screen x location
 		int x2 = width/ 2 + (int)(cv2.x * s2.x);
 
-		if (x1 >= x2) { //wall takesup 0 or less pixels
+		if (x1 >= x2 || x1 > ds.maxX || x2 < ds.minX) { //wall takesup 0 or less pixels
 			continue; //go to the next wall
 		}
 
@@ -128,10 +128,10 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& drawList, int top
 				top[x] = fminf(nyceil, yceil);
 				bot[x] = fmaxf(nyfloor, yfloor);
 				if (nyceil < yceil) {
-					drawVLine(x, nyceil, yceil, nSector->getCeilStepColor());
+					drawVLine(x, nyceil + 1, yceil - 1, nSector->getCeilStepColor());
 				}
 				if (nyfloor > yfloor) {
-					drawVLine(x, yfloor, nyfloor, nSector->getFloorStepColor());
+					drawVLine(x, yfloor + 1, nyfloor - 1, nSector->getFloorStepColor());
 				}
 			}
 			if (x != startx && x != endx && !nSector) { //make a nice outline

@@ -10,7 +10,7 @@ int main() {
 	Renderer ren(640, 480);
 
 	Sector s(-100, 500, Color(100, 100, 100), Color(100, 100, 100), Color(0, 0, 0), Color(0,0,0));
-	Sector s2(-50, 450, Color(255, 0, 0), Color(0, 255, 0), Color(255, 0, 0), Color(0, 255, 0));
+	Sector s2(-50, 200, Color(255, 0, 0), Color(0, 255, 0), Color(255, 0, 0), Color(0, 255, 0));
 
 
 	Vector2 offset(0, 200);
@@ -44,10 +44,10 @@ int main() {
 	s.addWall(si3);
 	s.addWall(si4);
 
-	Vector2 s2v1(-50, 100);
-	Vector2 s2v2(-50, 200);
-	Vector2 s2v3(50, 200);
-	Vector2 s2v4(50, 100);
+	Vector2 s2v1(-100, 100);
+	Vector2 s2v2(-100, 200);
+	Vector2 s2v3(100, 200);
+	Vector2 s2v4(100, 100);
 
 	Wall* s2s1 = new Wall(s2v1 * 5, s2v2 * 5);
 	Wall* s2s2 = new Wall(s2v2 * 5, s2v3 * 5);
