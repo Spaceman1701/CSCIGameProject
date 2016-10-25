@@ -3,6 +3,7 @@
 #include <math.h>
 #include "context.h"
 #include <SDL2/SDL_keycode.h>
+#include "game_math.h"
 
 Player::Player() {
 	height = 5;
@@ -29,7 +30,24 @@ float Player::getSinAngle() {
 	return sinAngle;
 }
 
-void Player::update() {
+Sector* Player::getCurrentSector() {
+	return current_sector;
+}
+
+void Player::fullSectorSearch(Map& map) {
+	for (Sector* s : map.getSectors()) {
+		if (pointInsideSector(s, position)) {
+			current_sector = s;
+			return;
+		}
+	}
+}
+
+void Player::update(Map& map) {
+	if (!current_sector || !pointInsideSector(current_sector, position)) {
+		fullSectorSearch(map);
+	}
+
 	if (angle > 2 * M_PI) {
 		angle -= 2 * (float)M_PI;
 	}

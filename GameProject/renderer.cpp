@@ -24,7 +24,7 @@ Framebuffer* Renderer::getFramebuffer() {
 
 
 void Renderer::drawView(Player& p, Map& map) {
-	Sector* playerSec = map.getSectors()[0]; //later
+	Sector* playerSec = p.getCurrentSector(); //later
 	int* top = new int[width];
 	int* bottom = new int[width]; //make instance var... context switches expensive... can do it once then memset
 	for (int i = 0; i < width; ++i) {

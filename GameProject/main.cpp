@@ -4,14 +4,16 @@
 #include "sector.h"
 #include "player.h"
 #include "map.h"
+#include <iostream>
 
 int main() {
 	Context::getInstance()->init(640, 480, 640, 480);
 	Renderer ren(640, 480);
 
 	Sector s(-100, 500, Color(100, 100, 100), Color(100, 100, 100), Color(0, 0, 0), Color(0,0,0));
+	s.setSectorNum(1);
 	Sector s2(-50, 200, Color(255, 0, 0), Color(0, 255, 0), Color(255, 0, 0), Color(0, 255, 0));
-
+	s2.setSectorNum(2);
 
 	Vector2 offset(0, 200);
 
@@ -60,13 +62,16 @@ int main() {
 	s2.addWall(s2s4);
 
 	Map map;
+
 	map.addSector(&s);
 	map.addSector(&s2);
+
 
 	Player p;
 	Context* c = Context::getInstance();
 	while (!c->getShouldQuit()) {
-		p.update();
+		p.update(map);
+		std::cout << "PLOC:          " << p.getCurrentSector()->getSectorNum() << std::endl;
 		ren.drawView(p, map);
 		c->swapBuffers(ren.getFramebuffer());
 		ren.getFramebuffer()->clear();

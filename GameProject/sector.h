@@ -14,6 +14,8 @@ private:
 	Color floor_step_color;
 	Color ceil_step_color;
 
+	int sector_num;
+
 public:
 	std::vector<Wall*>& getWalls();
 
@@ -26,6 +28,9 @@ public:
 	Color& getCeilColor();
 	Color& getFloorStepColor();
 	Color& getCeilStepColor();
+
+	void setSectorNum(int n);
+	int getSectorNum();
 
 	Sector(float floor, float ceil, Color floorColor, Color ceilColor, Color floor_step_color, Color ceil_step_color);
 	Sector(Sector* s);

@@ -21,27 +21,6 @@ int clampi(int v, int min, int max) {
 	return v;
 }
 
-bool lineIntersect(Vector2& l1s, Vector2& l1e, Vector2& l2s, Vector2& l2e, Vector2& result) {
-	float a1 = signedTriArea(l1s, l1e, l2e);
-	float a2 = signedTriArea(l1s, l1e, l2s);
-
-	if (a1 * a2 < 0.0f) {
-		float a3 = signedTriArea(l2s, l2e, l1s);
-		float a4 = a3 * a2 - a1;
-
-		if (a3 * a4 < 0.0f) { //points on different signs = there is an intersection
-			float t = a3 / (a3 - a4); //parameter location of intersect
-			result = l1s + (t * (l1e - l1s));
-			return true;
-		}
-	}
-	return false;
-}
-
-float signedTriArea(const Vector2& a, const Vector2& b, const Vector2& c) {
-	return (a.x - c.x) * (b.y - c.y) - (a.y - c.y) * (b.x - c.x);
-}
-
 bool qLineIntersect(Vector2& l1s, Vector2& l1e, Vector2& l2s, Vector2& l2e, Vector2& result) { //only call if you know there is an intersection
 	float denominator = (l1s.x - l1e.x)*(l2s.y - l2e.y) - (l1s.y - l1e.y) * (l2s.x - l2e.x);
 	if (denominator == 0) {
@@ -56,6 +35,22 @@ bool qLineIntersect(Vector2& l1s, Vector2& l1e, Vector2& l2s, Vector2& l2e, Vect
 	x /= denominator;
 	y /= denominator;
 	result = Vector2(x, y);
+	return true;
+}
+
+bool pointInsideSector(Sector* s, Vector2& point) {
+	for (Wall* w : s->getWalls()) {
+		Vector2 a = w->getPoints()[0];
+		Vector2 b = w->getPoints()[1];
+
+		Vector2 dif = b - a;
+		Vector2 pDif = point - a;
+		float result = dif.vectorPoduct(pDif);
+
+		if (result > 0) {
+			return false;
+		}
+	}
 	return true;
 }
 

@@ -48,3 +48,10 @@ Color& Sector::getFloorStepColor() {
 Color& Sector::getCeilStepColor() {
 	return ceil_step_color;
 }
+
+void Sector::setSectorNum(int n) {
+	sector_num = n;
+}
+int Sector::getSectorNum() {
+	return sector_num;
+}
