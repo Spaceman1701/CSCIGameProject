@@ -2,27 +2,14 @@
 #include "vector2.h"
 #include "sector.h"
 #include "map.h"
-class Player {
+#include "entity.h"
+class Player : public AbstractEntity {
 private:
-	Vector2 position;
-	float height;
-	float angle;
-	float cosAngle;
-	float sinAngle;
-	float speed;
-	float turn_speed;
-	Sector* current_sector;
-
-	void fullSectorSearch(Map* map);
+	const Vector2 FORWARD = Vector2(0, 1);
+	const Vector2 BACKWARD = Vector2(0, -1);
+	const Vector2 LEFT = Vector2(-1, 0);
+	const Vector2 RIGHT = Vector2(1, 0);
 public:
 	Player();
-	Vector2& getPosition();
-	float getHeight();
-	float getAngle();
-	float getCosAngle();
-	float getSinAngle();
-	Sector* getCurrentSector();
-	void update(Map* map);
-	void move(const Vector2& dir);
-	void moveRelative(const Vector2& rel_dir);
+	void onUpdate();
 };

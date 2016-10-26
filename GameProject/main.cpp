@@ -6,15 +6,17 @@
 #include "map.h"
 #include <iostream>
 #include "map_loader.h"
+#include "game.h"
 
 int main() {
 
+	std::string map_location = "gamemap.map";
+	std::cout << "enter the map's file location: ";
+#if 0
+	//std::cin >> map_location;
 	Context::getInstance()->init(640, 480, 640, 480);
 	Renderer ren(640, 480);
 
-	std::string map_location;
-	std::cout << "enter the map's file location: ";
-	//std::cin >> map_location;
 
 	MapLoader ml;
 	Map* map = ml.loadMap("gamemap.map");
@@ -28,5 +30,9 @@ int main() {
 		c->swapBuffers(ren.getFramebuffer());
 		ren.getFramebuffer()->clear();
 	}
+#endif
+	Game g(640, 480);
+	g.loadMap(map_location.c_str());
+	g.start();
 	return 0;
 }

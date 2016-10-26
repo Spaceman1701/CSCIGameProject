@@ -41,7 +41,6 @@ bool Context::init(int width, int height, int ren_width, int ren_height) {
 
 void Context::swapBuffers(Framebuffer* fb) {
 	uint32_t deltaTicks = SDL_GetTicks() - ticks;
-	std::cout << "Frame time: " << deltaTicks << std::endl;
 	while (SDL_PollEvent(&ev)) {
 		if (ev.type == SDL_KEYDOWN) {
 			keymap[ev.key.keysym.sym] = true;

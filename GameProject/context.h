@@ -8,9 +8,9 @@ class Context;
 class Context {
 private:
 	static Context* instance;
-	SDL_Window* win;
-	SDL_Renderer* ren;
-	SDL_Texture* tex;
+	SDL_Window* win = NULL;
+	SDL_Renderer* ren = NULL;
+	SDL_Texture* tex = NULL;
 	int win_width;
 	int win_height;
 	int ren_width;

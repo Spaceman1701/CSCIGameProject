@@ -3,7 +3,7 @@
 //inline functions are significantly fasters, drawColorPixel is probably going to be 
 class Framebuffer {
 private:
-	uint32_t* colorBuffer;
+	uint32_t* colorBuffer = 0; 
 	int width;
 	int height;
 

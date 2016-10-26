@@ -23,25 +23,33 @@ Map* MapLoader::loadMap(const char* file_location) {
 		splitString(line, PROPERTY_DELIM, line_data);
 		std::cout << "parsing: " << line_data[0] << std::endl;
 		if (line_data[0] == SECTOR_BEGIN_KEYWORD) {
+			if (current_sector != NULL) {
+				std::cout << "map file may be corrupted... attempting to contiue" << std::endl;
+				currentMap->addSector(current_sector);
+				current_sector = NULL;
+			}
 			current_sector = parseSector(line_data);
-			
+			std::cout << "read sector: " << current_sector->getSectorNum() << std::endl;
 		}
 		if (current_sector != NULL) {
 			if (line_data[0] == LINE_KEYWORD) {
 				walls.push_back(parseLine(line_data, current_sector));
 			}
 			if (line_data[0] == SECTOR_END_KEYWORD) {
+				std::cout << "adding sector to map: " << current_sector->getSectorNum() << std::endl;
 				currentMap->addSector(current_sector);
 				current_sector = NULL; //map will handle sector deletion in it's destructor
 			}
 		}
 		line_data.clear();
 	}
+	std::cout << "constructing walls and linking sectors..." << std::endl;
 	std::vector<Sector*> map_sectors = currentMap->getSectors();
 	for (LineData ld : walls) { //find all the wall references
 		Sector* link_sector = NULL;
 		if (ld.portal != -1) {
 			link_sector = map_sectors[ld.portal];
+			std::cout << "link sector location: " << ld.portal << std::endl;
 			std::cout << "link sector: " << link_sector->getSectorNum() << std::endl;
 		}
 		
@@ -106,6 +114,7 @@ Sector* MapLoader::parseSector(std::vector<string>& line) {
 	Sector* sector = new Sector(sectorData.fheight, sectorData.cheight,
 		sectorData.fcolor, sectorData.ccolor, sectorData.fstepcolor, sectorData.cstepcolor);
 	sector->setSectorNum(sectorData.id); //add as constructor param
+	std::cout << "loaded sector: " << sector->getSectorNum() << std::endl;
 	return sector;
 }
 

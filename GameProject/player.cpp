@@ -4,93 +4,33 @@
 #include "context.h"
 #include <SDL2/SDL_keycode.h>
 #include "game_math.h"
-
 Player::Player() {
-	height = 5;
-	speed = 3;
-	turn_speed = 0.05f;
-	current_sector = NULL;
+	setMoveSpeed(2);
+	setRotSpeed(0.05);
+	setHeight(5);
+	setPosition(Vector2(0, 0));
+	setAngle(0);
 }
 
-Vector2& Player::getPosition() {
-	return position;
-}
-float Player::getHeight() {
-	return height;
-}
-
-float Player::getAngle() {
-	return angle;
-}
-
-float Player::getCosAngle() {
-	return cosAngle;
-}
-
-float Player::getSinAngle() {
-	return sinAngle;
-}
-
-Sector* Player::getCurrentSector() {
-	return current_sector;
-}
-
-void Player::fullSectorSearch(Map* map) {
-	for (Sector* s : map->getSectors()) {
-		if (pointInsideSector(s, position)) {
-			current_sector = s;
-			return;
-		}
-	}
-}
-
-void Player::update(Map* map) {
-	if (!current_sector || !pointInsideSector(current_sector, position)) {
-		fullSectorSearch(map);
-	}
-
-	if (angle > 2 * M_PI) {
-		angle -= 2 * (float)M_PI;
-	}
-	if (angle < 2 * (float)M_PI) {
-		angle += 2 * (float)M_PI;
-	}
-
-	sinAngle = sinf(angle);
-	cosAngle = cosf(angle);
-
+void Player::onUpdate() {
 	Context* c = Context::getInstance();
 	if (c->isKeyDown(SDLK_w)) {
-		moveRelative(Vector2(0, 1));
+		moveRelative(FORWARD);
 	}
 	if (c->isKeyDown(SDLK_s)) {
-		moveRelative(Vector2(0, -1));
+		moveRelative(BACKWARD);
 	}
 	if (c->isKeyDown(SDLK_a)) {
-		moveRelative(Vector2(-1, 0));
+		moveRelative(LEFT);
 	}
 	if (c->isKeyDown(SDLK_d)) {
-		moveRelative(Vector2(1, 0));
+		moveRelative(RIGHT);
 	}
 	if (c->isKeyDown(SDLK_LEFT)) {
-		angle -= turn_speed;
+		rotate(-1);
 	}
 	if (c->isKeyDown(SDLK_RIGHT)) {
-		angle += turn_speed;
+		rotate(1);
 	}
-
-	
 }
 
-void Player::move(const Vector2& dir) {
-	Vector2 normDir = dir.norm();
-	position.x += normDir.x * speed;
-	position.y += normDir.y * speed;
-}
-
-void Player::moveRelative(const Vector2& rel_dir) {
-	Vector2 dir;
-	dir.x = cosAngle * rel_dir.x + sinAngle * rel_dir.y;
-	dir.y = cosAngle * rel_dir.y - sinAngle * rel_dir.x;
-	move(dir);
-}

@@ -60,10 +60,17 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <AdditionalSourcesToCopyMapping>
+    </AdditionalSourcesToCopyMapping>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
+  </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="color.cpp" />
     <ClCompile Include="context.cpp" />
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="framebuffer.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="game_math.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
@@ -76,9 +83,11 @@
     <ClCompile Include="wall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="entity.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="context.h" />
     <ClInclude Include="framebuffer.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="game_math.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="map_loader.h" />
@@ -98,6 +107,10 @@
     <Link>
       <LibraryDependencies>SDL2</LibraryDependencies>
     </Link>
+    <PostBuildEvent>
+      <AdditionalSourcesToCopyMapping>$(SolutionDir)\maps\gamemap.map:=/home/user/projects/GameProject/bin/x64/Debug/gamemap.map</AdditionalSourcesToCopyMapping>
+      <Message>copying map</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

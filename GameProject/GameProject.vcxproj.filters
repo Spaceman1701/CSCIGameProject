@@ -48,6 +48,12 @@
     <ClCompile Include="string_utils.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framebuffer.h">
@@ -84,6 +90,12 @@
       <Filter>headers</Filter>
     </ClInclude>
     <ClInclude Include="string_utils.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

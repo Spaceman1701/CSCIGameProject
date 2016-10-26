@@ -50,7 +50,6 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& drawList, ClipLis
 	float playerZ = p.getHeight();
 	Sector* s = ds.sector;
 	std::vector<Wall*> walls = s->getWalls();
-	std::cout << "Sector has: " << walls.size() << std::endl;
 	for (Wall* w : walls) {
 		Sector* nSector = w->getLinkedSector();
 		Vector2 v1 = w->getPoints()[0];
@@ -62,7 +61,6 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& drawList, ClipLis
 			continue; //wall is completely behind player
 		}
 
-		std::cout << "y " << cv1.y << std::endl;
 		if (cv1.y <= 0.0f) {
 			cv1.x = lerp2(cv2.y, cv1.y, cv2.x, cv1.x, nearClip);
 			cv1.y = nearClip;
