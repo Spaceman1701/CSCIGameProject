@@ -60,5 +60,6 @@ private:
 	Sector* parseSector(std::vector<string>& line);
 	LineData parseLine(std::vector<string>& line, Sector* sector);
 public:
+	MapLoader();
 	Map* loadMap(const char* file_location);
 };

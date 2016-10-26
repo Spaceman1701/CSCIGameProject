@@ -4,7 +4,7 @@
 Framebuffer::Framebuffer(int width, int height) {
 	this->width = width;
 	this->height = height;
-	//colorBuffer = new uint32_t[width * height];
+	colorBuffer = (uint32_t*)malloc(sizeof(uint32_t) * width * height);
 }
 
 uint32_t* Framebuffer::getPixels() {

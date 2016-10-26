@@ -14,10 +14,10 @@ int main() {
 
 	std::string map_location;
 	std::cout << "enter the map's file location: ";
-	std::cin >> map_location;
+	//std::cin >> map_location;
 
 	MapLoader ml;
-	Map* map = ml.loadMap(map_location.c_str());
+	Map* map = ml.loadMap("gamemap.map");
 
 	Player p;
 	Context* c = Context::getInstance();

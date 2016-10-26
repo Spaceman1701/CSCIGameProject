@@ -1,7 +1,9 @@
 #include "map_loader.h"
 #include <stdlib.h>
 #include <iostream>
-
+MapLoader::MapLoader() {
+	currentMap = NULL; //even though this is a class field, the value is undefined at start... just C++ 05 things.
+}
 Map* MapLoader::loadMap(const char* file_location) {
 	std::cout << "loading file: " << file_location << std::endl;
 	if (currentMap != NULL) {
