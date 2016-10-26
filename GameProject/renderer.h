@@ -26,7 +26,8 @@ private:
 	float fDist;
 	float nearClip;
 
-	int avar;
+	int half_height;
+	int half_width;
 
 	ClipList top;
 	ClipList bot;

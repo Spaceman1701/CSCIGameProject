@@ -32,6 +32,7 @@ private:
 	const char* CSTEP_COLOR_KEYWORD = "cstepcolor";
 	const char* POSITION_KEYWORD = "pos";
 	const char* COLOR_KEYWORD = "color";
+	const char* SECTOR_LIGHT_LEVEL = "light";
 	/*-------------------------------------------*/
 	struct SectorData {
 		Color fcolor;
