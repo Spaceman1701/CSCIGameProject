@@ -3,13 +3,12 @@
 //inline functions are significantly fasters, drawColorPixel is probably going to be 
 class Framebuffer {
 private:
-	uint32_t* colorBuffer;
-	uint16_t* depthBuffer;
+	uint32_t colorBuffer[640 * 480];
 	int width;
 	int height;
 
 	inline int convertCoords(int x, int y) {
-		return x + width*(height-y); //store framebuffer upside down. Makes bottom left corner origin
+		return x + width*(480- y- 1); //store framebuffer upside down. Makes bottom left corner origin
 	}
 	inline void convertIndex(int i, int* x, int* y) {
 		*x = i % width;
@@ -22,7 +21,7 @@ public:
 	*window is mapped [1, width] instead of the typicall [0, width-1] as this makes some operations more intuitive
 	*/
 	inline void drawColorPixel(int x, int y, uint32_t color) {
-		colorBuffer[convertCoords(x-1, y-1)] = color;
+		colorBuffer[convertCoords(x, y)] = color;
 	}
 	inline void drawColorPixel(int x, int y, uint8_t r, uint8_t g, uint8_t b) {
 		uint32_t color = (r << 24) + (g << 16) + (b << 8) + 255;

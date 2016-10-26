@@ -8,4 +8,5 @@ private:
 public:
 	void addSector(Sector* s);
 	SectorList& getSectors();
+	~Map();
 };

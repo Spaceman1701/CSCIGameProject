@@ -1,0 +1,19 @@
+count=2
+wscale=5
+hscale=1
+
+begin id=0 fcolor=100,100,100 ccolor=100,100,100 fheight=-100 cheight=500 fstepcolor=100,100,100 cstepcolor=100,100,100
+line pos=-100,-100,-100,100 color=255,255,255 portal=-1
+line pos=-100,100,-50,100 color=255,255,255 portal=-1
+line pos=-50,100,50,100 color=255,0,0 portal=1
+line pos=50,100,100,100 color=255,255,255 portal=-1
+line pos=100,100,100,-100 color=255,255,255 portal=-1
+line pos=100,-100,-100,-100 color=255,255,255 portal=-1
+end
+
+begin id=1 fcolor=255,0,0 ccolor=0,255,0 fheight=-50 cheight=200 fstepcolor=255,0,0 cstepcolor=0,255,0
+line pos=-50,100,-50,200 color=255,255,255 portal=-1
+line pos=-50,200,50,200 color=255,255,255 portal=-1
+line pos=50,200,50,100 color=255,255,255 portal=-1
+line pos=50,100,-50,100 color=255,0,0 portal=0
+end

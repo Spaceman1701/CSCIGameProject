@@ -42,5 +42,5 @@ public:
 	Framebuffer* getFramebuffer();
 	
 	void drawVLine(int x, int lower, int upper, Color& color);
-	void drawView(Player& p, Map& map);
+	void drawView(Player& p);
 };

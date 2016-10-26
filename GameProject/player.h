@@ -13,7 +13,7 @@ private:
 	float turn_speed;
 	Sector* current_sector;
 
-	void fullSectorSearch(Map& map);
+	void fullSectorSearch(Map* map);
 public:
 	Player();
 	Vector2& getPosition();
@@ -22,7 +22,7 @@ public:
 	float getCosAngle();
 	float getSinAngle();
 	Sector* getCurrentSector();
-	void update(Map& map);
+	void update(Map* map);
 	void move(const Vector2& dir);
 	void moveRelative(const Vector2& rel_dir);
 };

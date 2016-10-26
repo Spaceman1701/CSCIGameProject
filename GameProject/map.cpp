@@ -6,3 +6,9 @@ void Map::addSector(Sector* s) {
 Map::SectorList& Map::getSectors() {
 	return sectors;
 }
+
+Map::~Map() {
+	for (Sector* s : sectors) {
+		delete s;
+	}
+}

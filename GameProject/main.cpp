@@ -5,11 +5,13 @@
 #include "player.h"
 #include "map.h"
 #include <iostream>
+#include "map_loader.h"
 
 int main() {
+
 	Context::getInstance()->init(640, 480, 640, 480);
 	Renderer ren(640, 480);
-
+#if 0
 	Sector* s = new Sector(-100, 500, Color(100, 100, 100), Color(100, 100, 100), Color(0, 0, 0), Color(0,0,0));
 	s->setSectorNum(1);
 	Sector* s2 = new Sector(-50, 200, Color(255, 0, 0), Color(0, 255, 0), Color(255, 0, 0), Color(0, 255, 0));
@@ -66,13 +68,16 @@ int main() {
 	map.addSector(s);
 	map.addSector(s2);
 
+#endif
+	MapLoader ml;
+	Map* map = ml.loadMap("gamemap.map");
 
 	Player p;
 	Context* c = Context::getInstance();
 	while (!c->getShouldQuit()) {
 		p.update(map);
 		//std::cout << "PLOC:          " << p.getCurrentSector()->getSectorNum() << std::endl;
-		ren.drawView(p, map);
+		ren.drawView(p);
 		c->swapBuffers(ren.getFramebuffer());
 		ren.getFramebuffer()->clear();
 	}

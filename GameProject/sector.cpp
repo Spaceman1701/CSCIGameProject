@@ -1,5 +1,5 @@
 #include "sector.h"
-
+#include <iostream>
 std::vector<Wall*>& Sector::getWalls() {
 	return walls;
 }
@@ -54,4 +54,11 @@ void Sector::setSectorNum(int n) {
 }
 int Sector::getSectorNum() {
 	return sector_num;
+}
+
+Sector::~Sector() {
+	std::cout << "sector delete! " << std::endl;
+	for (Wall* w : walls) {
+		delete w;
+	}
 }

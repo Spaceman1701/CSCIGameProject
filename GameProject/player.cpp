@@ -35,8 +35,8 @@ Sector* Player::getCurrentSector() {
 	return current_sector;
 }
 
-void Player::fullSectorSearch(Map& map) {
-	for (Sector* s : map.getSectors()) {
+void Player::fullSectorSearch(Map* map) {
+	for (Sector* s : map->getSectors()) {
 		if (pointInsideSector(s, position)) {
 			current_sector = s;
 			return;
@@ -44,7 +44,7 @@ void Player::fullSectorSearch(Map& map) {
 	}
 }
 
-void Player::update(Map& map) {
+void Player::update(Map* map) {
 	if (!current_sector || !pointInsideSector(current_sector, position)) {
 		fullSectorSearch(map);
 	}

@@ -27,7 +27,7 @@ Framebuffer* Renderer::getFramebuffer() {
 }
 
 
-void Renderer::drawView(Player& p, Map& map) {
+void Renderer::drawView(Player& p) {
 	Sector* playerSec = p.getCurrentSector(); //later
 	
 	for (int i = 0; i < width; ++i) {
@@ -48,8 +48,8 @@ void Renderer::drawView(Player& p, Map& map) {
 void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& drawList, ClipList& top, ClipList& bot) {
 	Vector2 playerLoc = p.getPosition();
 	float playerZ = p.getHeight();
-	Sector s = *ds.sector;
-	std::vector<Wall*> walls = s.getWalls();
+	Sector* s = ds.sector;
+	std::vector<Wall*> walls = s->getWalls();
 	std::cout << "Sector has: " << walls.size() << std::endl;
 	for (Wall* w : walls) {
 		Sector* nSector = w->getLinkedSector();
@@ -81,8 +81,8 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& drawList, ClipLis
 			continue; //go to the next wall
 		}
 
-		float cceilz = s.getCeilHeight() - playerZ;
-		float cfloorz = s.getFloorHeight() - playerZ;
+		float cceilz = s->getCeilHeight() - playerZ;
+		float cfloorz = s->getFloorHeight() - playerZ;
 
 		int yceil1 = project(height / 2, cceilz, s1.y);
 		int yfloor1 = project(height / 2, cfloorz, s1.y);
@@ -121,8 +121,8 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& drawList, ClipLis
 
 			//int z = lerp2(x1, x2, cv1.y, cv2.y, x);
 
-			drawVLine(x, bot[x], yfloor, s.getFloorColor()); //draw floor;
-			drawVLine(x, yceil, top[x], s.getCeilColor());
+			drawVLine(x, bot[x], yfloor, s->getFloorColor()); //draw floor;
+			drawVLine(x, yceil, top[x], s->getCeilColor());
 
 			Color c = Color(255, 255, 255);
 
