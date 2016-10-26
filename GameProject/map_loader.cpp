@@ -36,9 +36,6 @@ Map* MapLoader::loadMap(const char* file_location) {
 		line_data.clear();
 	}
 	std::vector<Sector*> map_sectors = currentMap->getSectors();
-	if (map_sectors.size() != 2) {
-		exit(-1);
-	}
 	for (LineData ld : walls) { //find all the wall references
 		Sector* link_sector = NULL;
 		if (ld.portal != -1) {
