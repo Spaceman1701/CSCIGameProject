@@ -57,8 +57,8 @@ private:
 	void parsePoint(string& data, Vector2& v1, Vector2& v2);
 	int parseReference(string& data);
 
-	Sector* parseSector(std::vector<string>& line);
-	LineData parseLine(std::vector<string>& line, Sector* sector);
+	Sector* parseSector(std::vector<string>& line, float hscale);
+	LineData parseLine(std::vector<string>& line, Sector* sector, float wscale);
 public:
 	MapLoader();
 	Map* loadMap(const char* file_location);

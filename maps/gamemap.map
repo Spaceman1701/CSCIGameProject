@@ -1,6 +1,6 @@
-count=2
-wscale=5
-hscale=1
+count 2
+wscale 5
+hscale 1
 
 begin id=0 fcolor=100,100,100 ccolor=100,100,100 fheight=-100 cheight=500 fstepcolor=100,100,100 cstepcolor=100,100,100
 line pos=-100,-100,-100,100 color=255,255,255 portal=-1

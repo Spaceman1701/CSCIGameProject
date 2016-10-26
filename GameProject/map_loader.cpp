@@ -19,23 +19,36 @@ Map* MapLoader::loadMap(const char* file_location) {
 	string line;
 	std::vector<string> line_data;
 	Sector* current_sector = NULL;
+	float wall_scale = 1; //optional values for the file
+	float height_scale = 1;
+	int num_sectors = 0;
 	while (getline(map_file, line, LINE_DELIM)) {
 		splitString(line, PROPERTY_DELIM, line_data);
 		std::cout << "parsing: " << line_data[0] << std::endl;
-		if (line_data[0] == SECTOR_BEGIN_KEYWORD) {
+		string keyword = line_data[0];
+		if (keyword == COUNT_KEYWORD) {
+			num_sectors = parseReference(line_data[1]);
+		}
+		if (keyword == HSCALE_KEYWORD) {
+			height_scale = parseFloat(line_data[1]);
+		}
+		if (keyword == WSCALE_KEYWORD) {
+			wall_scale = parseFloat(line_data[1]);
+		}
+		if (keyword == SECTOR_BEGIN_KEYWORD) {
 			if (current_sector != NULL) {
 				std::cout << "map file may be corrupted... attempting to contiue" << std::endl;
 				currentMap->addSector(current_sector);
 				current_sector = NULL;
 			}
-			current_sector = parseSector(line_data);
+			current_sector = parseSector(line_data, height_scale);
 			std::cout << "read sector: " << current_sector->getSectorNum() << std::endl;
 		}
 		if (current_sector != NULL) {
-			if (line_data[0] == LINE_KEYWORD) {
-				walls.push_back(parseLine(line_data, current_sector));
+			if (keyword == LINE_KEYWORD) {
+				walls.push_back(parseLine(line_data, current_sector, wall_scale));
 			}
-			if (line_data[0] == SECTOR_END_KEYWORD) {
+			if (keyword == SECTOR_END_KEYWORD) {
 				std::cout << "adding sector to map: " << current_sector->getSectorNum() << std::endl;
 				currentMap->addSector(current_sector);
 				current_sector = NULL; //map will handle sector deletion in it's destructor
@@ -59,7 +72,7 @@ Map* MapLoader::loadMap(const char* file_location) {
 	return currentMap;
 }
 
-MapLoader::LineData MapLoader::parseLine(std::vector<string>& line, Sector* sector) {
+MapLoader::LineData MapLoader::parseLine(std::vector<string>& line, Sector* sector, float wscale) {
 	LineData ld;
 	std::vector<string> property_data;
 	for (int i = 0; i < line.size(); ++i) {
@@ -67,8 +80,8 @@ MapLoader::LineData MapLoader::parseLine(std::vector<string>& line, Sector* sect
 		if (property_data[0] == POSITION_KEYWORD) {
 			Vector2 v1, v2;
 			parsePoint(property_data[1], v1, v2);
-			ld.position[0] = v1;
-			ld.position[1] = v2;
+			ld.position[0] = v1 * wscale;
+			ld.position[1] = v2 * wscale;
 		}
 		else if (property_data[0] == COLOR_KEYWORD) {
 			ld.color = parseColor(property_data[1]);
@@ -82,7 +95,7 @@ MapLoader::LineData MapLoader::parseLine(std::vector<string>& line, Sector* sect
 	return ld;
 }
 
-Sector* MapLoader::parseSector(std::vector<string>& line) {
+Sector* MapLoader::parseSector(std::vector<string>& line, float hscale) {
 	SectorData sectorData;
 	std::vector<string> property_data;
 	for (int i = 0; i < line.size(); ++i) {
@@ -95,10 +108,10 @@ Sector* MapLoader::parseSector(std::vector<string>& line) {
 			sectorData.ccolor = parseColor(property_data[1]);
 		}
 		else if (property_data[0] == FHEIGHT_KEYWORD) {
-			sectorData.fheight = parseFloat(property_data[1]);
+			sectorData.fheight = parseFloat(property_data[1]) * hscale;
 		}
 		else if (property_data[0] == CHEIGHT_KEYWORD) {
-			sectorData.cheight = parseFloat(property_data[1]);
+			sectorData.cheight = parseFloat(property_data[1]) * hscale;
 		}
 		else if (property_data[0] == FSTEP_COLOR_KEYWORD) {
 			sectorData.fstepcolor = parseColor(property_data[1]);
