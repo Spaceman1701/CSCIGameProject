@@ -25,16 +25,6 @@ Sector::Sector(float floor, float ceil, Color floor_color, Color ceil_color, Col
 	this->light_level = light_level;
 }
 
-/*Sector::Sector(Sector* s) {
-	this->floor_height = s->floor_height;
-	this->ceil_height = s->ceil_height;
-	this->floorColor = s->floorColor;
-	this->ceilColor = s->ceilColor;
-	this->floor_step_color = s->floor_step_color;
-	this->ceil_step_color = s->ceil_step_color;
-	this->walls = s->walls;
-}*/
-
 Color& Sector::getFloorColor() {
 	return floorColor;
 }

@@ -19,4 +19,5 @@ public:
 	Sector* getLinkedSector();
 
 	Color& getColor();
+
 };
