@@ -21,7 +21,7 @@ Map* MapLoader::loadMap(const char* file_location) {
 	Sector* current_sector = NULL;
 	float wall_scale = 1; //optional values for the file
 	float height_scale = 1;
-	int num_sectors = 0;
+	unsigned int num_sectors = 0;
 	while (getline(map_file, line, LINE_DELIM)) {
 		splitString(line, PROPERTY_DELIM, line_data);
 		std::cout << "parsing: " << line_data[0] << std::endl;
@@ -56,6 +56,11 @@ Map* MapLoader::loadMap(const char* file_location) {
 		}
 		line_data.clear();
 	}
+	if (num_sectors != currentMap->getSectors().size()) {
+		std::cout << "map loading error: searched for: " << 
+			num_sectors << " found: " << currentMap->getSectors().size() << std::endl;
+	}
+
 	std::cout << "constructing walls and linking sectors..." << std::endl;
 	std::vector<Sector*> map_sectors = currentMap->getSectors();
 	for (LineData ld : walls) { //find all the wall references
@@ -66,7 +71,7 @@ Map* MapLoader::loadMap(const char* file_location) {
 			std::cout << "link sector: " << link_sector->getSectorNum() << std::endl;
 		}
 		
-		ld.sector->addWall(new Wall(ld.position[0], ld.position[1], link_sector));
+		ld.sector->addWall(new Wall(ld.position[0], ld.position[1], ld.color, link_sector));
 	}
 
 	return currentMap;
@@ -75,7 +80,7 @@ Map* MapLoader::loadMap(const char* file_location) {
 MapLoader::LineData MapLoader::parseLine(std::vector<string>& line, Sector* sector, float wscale) {
 	LineData ld;
 	std::vector<string> property_data;
-	for (int i = 0; i < line.size(); ++i) {
+	for (unsigned int i = 0; i < line.size(); ++i) {
 		splitString(line[i], ASSIGN_DELIM, property_data);
 		if (property_data[0] == POSITION_KEYWORD) {
 			Vector2 v1, v2;
@@ -98,7 +103,7 @@ MapLoader::LineData MapLoader::parseLine(std::vector<string>& line, Sector* sect
 Sector* MapLoader::parseSector(std::vector<string>& line, float hscale) {
 	SectorData sectorData;
 	std::vector<string> property_data;
-	for (int i = 0; i < line.size(); ++i) {
+	for (unsigned int i = 0; i < line.size(); ++i) {
 		splitString(line[i], ASSIGN_DELIM, property_data);
 		if (property_data[0] == FCOLOR_KEYWORD) {
 			sectorData.fcolor = parseColor(property_data[1]); //the section after "="
@@ -122,10 +127,13 @@ Sector* MapLoader::parseSector(std::vector<string>& line, float hscale) {
 		else if (property_data[0] == SECTOR_ID_KEYWORD) {
 			sectorData.id = parseReference(property_data[1]);
 		}
+		else if (property_data[0] == SECTOR_LIGHT_LEVEL) {
+			sectorData.light_level = parseColor(property_data[1]);
+		}
 		property_data.clear();
 	}
 	Sector* sector = new Sector(sectorData.fheight, sectorData.cheight,
-		sectorData.fcolor, sectorData.ccolor, sectorData.fstepcolor, sectorData.cstepcolor);
+		sectorData.fcolor, sectorData.ccolor, sectorData.fstepcolor, sectorData.cstepcolor, sectorData.light_level);
 	sector->setSectorNum(sectorData.id); //add as constructor param
 	std::cout << "loaded sector: " << sector->getSectorNum() << std::endl;
 	return sector;
@@ -143,14 +151,14 @@ void MapLoader::splitString(string& s, char delim, std::vector<string>& result) 
 Color MapLoader::parseColor(string& data) {
 	std::vector<string> split_data;
 	splitString(data, VALUE_DELIM, split_data);
-	float r = parseFloat(split_data[0]);
-	float g = parseFloat(split_data[1]);
-	float b = parseFloat(split_data[2]);
+	uint8_t r = parseUInt(split_data[0]);
+	uint8_t g = parseUInt(split_data[1]);
+	uint8_t b = parseUInt(split_data[2]);
 	return Color(r, g, b);
 }
 
 float MapLoader::parseFloat(string& data) {
-	return atof(data.c_str());
+	return (float)atof(data.c_str());
 }
 
 void MapLoader::parsePoint(string& data, Vector2& v1, Vector2& v2) {
@@ -168,4 +176,8 @@ void MapLoader::parsePoint(string& data, Vector2& v1, Vector2& v2) {
 
 int MapLoader::parseReference(string& data) {
 	return atoi(data.c_str());
+}
+
+uint8_t MapLoader::parseUInt(string& data) {
+	return (uint8_t)atoi(data.c_str());
 }

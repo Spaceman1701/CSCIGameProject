@@ -10,12 +10,12 @@
 Renderer::Renderer(int width, int height) : framebuffer(width, height), top(width), bot(width) {
 	this->width = width;
 	this->height = height;
-	
-	half_width = this->width / 2;
+	half_width = width / 2;
 	half_height = height / 2;
+
 	hfov = .73f * (float)height;
 	vfov = .2f * (float)height;
-	nearClip = 5.f;
+ 	nearClip = 5.f;
 }
 
 void Renderer::update() {
@@ -49,6 +49,7 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& draw_list, ClipLi
 	float playerZ = p.getHeight();
 	Sector* s = ds.sector;
 	std::vector<Wall*> walls = s->getWalls();
+	Color light_level = s->getLightLevel();
 	for (Wall* w : walls) {
 		Sector* nSector = w->getLinkedSector();
 		Vector2 v1 = w->getPoints()[0];
@@ -90,8 +91,8 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& draw_list, ClipLi
 		float nyceilz, nyfloorz;
 		int nyceil1, nyfloor1, nyceil2, nyfloor2;
 		if (nSector) {
-			nyceilz = w->getLinkedSector()->getCeilHeight() - p.getHeight();
-			nyfloorz = w->getLinkedSector()->getFloorHeight() - p.getHeight();
+			nyceilz = w->getLinkedSector()->getCeilHeight() - playerZ;
+			nyfloorz = w->getLinkedSector()->getFloorHeight() - playerZ;
 
 			nyceil1 = project(half_height, nyceilz, s1.y);
 			nyfloor1 = project(half_height, nyfloorz, s1.y);
@@ -117,11 +118,11 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& draw_list, ClipLi
 			yfloor = clampi(yfloor, bot[x], top[x]);
 
 			//int z = lerp2(x1, x2, cv1.y, cv2.y, x);
+			Color floor_color = s->getFloorColor() * light_level;
+			drawVLine(x, bot[x], yfloor, floor_color); //draw floor;
 
-			drawVLine(x, bot[x], yfloor, s->getFloorColor()); //draw floor;
-			drawVLine(x, yceil, top[x], s->getCeilColor());
-
-			Color c = Color(255, 255, 255);
+			Color ceil_color = s->getCeilColor() * light_level;
+			drawVLine(x, yceil, top[x], ceil_color); //draw ceil
 
 			if (nSector != NULL) { //draw step up and step down
 				int nyceil = lerp2i(x1, x2, nyceil1, nyceil2, x);
@@ -130,14 +131,17 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& draw_list, ClipLi
 				top[x] = std::min(nyceil, yceil);
 				bot[x] = std::max(nyfloor, yfloor);
 				if (nyceil < yceil) {
-					drawVLine(x, nyceil + 1, yceil - 1, nSector->getCeilStepColor());
+					Color ceil_step_color = nSector->getCeilStepColor() * light_level;
+					drawVLine(x, nyceil + 1, yceil - 1, ceil_step_color);
 				}
 				if (nyfloor > yfloor) {
-					drawVLine(x, yfloor + 1, nyfloor - 1, nSector->getFloorStepColor());
+					Color floor_step_color = light_level * nSector->getFloorStepColor();
+					drawVLine(x, yfloor + 1, nyfloor - 1, floor_step_color);
 				}
 			}
 			if (x != startx && x != endx && !nSector) { //make a nice outline
-				drawVLine(x, yfloor + 1, yceil -1, c); //draw wall
+				Color wall_color = w->getColor() * light_level;
+				drawVLine(x, yfloor + 1, yceil -1, wall_color); //draw wall
 				bot[x] = height;
 				top[x] = 0;
 			}

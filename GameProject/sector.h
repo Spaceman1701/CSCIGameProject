@@ -14,6 +14,8 @@ private:
 	Color floor_step_color;
 	Color ceil_step_color;
 
+	Color light_level;
+
 	int sector_num;
 
 public:
@@ -28,10 +30,13 @@ public:
 	Color& getCeilColor();
 	Color& getFloorStepColor();
 	Color& getCeilStepColor();
+	Color& getLightLevel();
 
 	void setSectorNum(int n);
 	int getSectorNum();
 
-	Sector(float floor, float ceil, Color floorColor, Color ceilColor, Color floor_step_color, Color ceil_step_color);
+	Sector(float floor, float ceil, Color floorColor, Color ceilColor, 
+		Color floor_step_color, Color ceil_step_color, Color light_level);
+
 	~Sector();
 };

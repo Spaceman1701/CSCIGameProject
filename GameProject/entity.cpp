@@ -4,7 +4,7 @@
 #include <math.h>
 void AbstractEntity::fullSectorSearch() {
 	for (Sector* s : map->getSectors()) {
-		if (pointInsideSector(s, position)) {
+		if (pointInsideSector(s, position) != 0) {
 			current_sector = s;
 			return;
 		}
@@ -104,6 +104,18 @@ float AbstractEntity::getHeight() {
 	return height;
 }
 
-void AbstractEntity::setHeight(float heigth) {
+void AbstractEntity::setHeight(float height) {
 	this->height = height;
 }
+
+int AbstractEntity::insideMap() {
+	if (pointInsideSector(current_sector, position)) {
+		return 1;
+	}
+	this->fullSectorSearch();
+	if (pointInsideSector(current_sector, position)) {
+		return 1;
+	}
+	return 0;
+}
+

@@ -5,10 +5,11 @@ Wall::Wall(Vector2 vertex1, Vector2 vertex2) {
 	sector = 0;
 }
 
-Wall::Wall(const Vector2 vertex1, const Vector2 vertex2, Sector* sector) {
+Wall::Wall(const Vector2 vertex1, const Vector2 vertex2, Color color, Sector* sector) {
 	position[0] = vertex1;
 	position[1] = vertex2;
 	this->sector = sector;
+	this->color = color;
 }
 
 Wall::Wall(const Wall* w) {
@@ -23,4 +24,8 @@ Vector2* Wall::getPoints() {
 
 Sector* Wall::getLinkedSector() {
 	return sector;
+}
+
+Color& Wall::getColor() {
+	return color;
 }

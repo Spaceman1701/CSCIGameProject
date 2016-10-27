@@ -14,10 +14,11 @@ private:
 	Map* map = 0;
 	Sector* current_sector = 0;
 
-	void fullSectorSearch();
 	void updateRotation();
 protected:
 	virtual void onUpdate() = 0;
+	int insideMap();
+	void fullSectorSearch();
 public:
 	void update();
 	Map* getMap();

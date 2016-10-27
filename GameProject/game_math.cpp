@@ -38,7 +38,7 @@ bool qLineIntersect(Vector2& l1s, Vector2& l1e, Vector2& l2s, Vector2& l2e, Vect
 	return true;
 }
 
-bool pointInsideSector(Sector* s, Vector2& point) {
+int pointInsideSector(Sector* s, Vector2& point) {
 	std::vector<Wall*> walls = s->getWalls();
 	for (Wall* w : walls) {
 		Vector2 a = w->getPoints()[0];
@@ -47,11 +47,13 @@ bool pointInsideSector(Sector* s, Vector2& point) {
 		Vector2 dif = b - a;
 		Vector2 pDif = point - a;
 		float result = dif.vectorPoduct(pDif);
-
+		if (result == 0) {
+			return -1;
+		}
 		if (result > 0) {
-			return false;
+			return 0;
 		}
 	}
-	return true;
+	return 1;
 }
 

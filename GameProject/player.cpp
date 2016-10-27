@@ -5,15 +5,16 @@
 #include <SDL2/SDL_keycode.h>
 #include "game_math.h"
 Player::Player() {
-	setMoveSpeed(2);
-	setRotSpeed(0.05);
-	setHeight(5);
+	setMoveSpeed(1.0f);
+	setRotSpeed(0.05f);
 	setPosition(Vector2(0, 0));
 	setAngle(0);
+	setHeight(10);
 }
 
 void Player::onUpdate() {
 	Context* c = Context::getInstance();
+	Vector2 pre_move_pos = getPosition();
 	if (c->isKeyDown(SDLK_w)) {
 		moveRelative(FORWARD);
 	}
@@ -32,5 +33,9 @@ void Player::onUpdate() {
 	if (c->isKeyDown(SDLK_RIGHT)) {
 		rotate(1);
 	}
+	if (!insideMap()) {
+		setPosition(pre_move_pos); //can make walls feel sticky
+	}
+	setHeight(getCurrentSector()->getFloorHeight() + 10);
 }
 

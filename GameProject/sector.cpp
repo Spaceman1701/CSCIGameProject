@@ -15,13 +15,14 @@ float Sector::getCeilHeight() {
 	return ceil_height;
 }
 
-Sector::Sector(float floor, float ceil, Color floor_color, Color ceil_color, Color floor_step_color, Color ceil_step_color) {
+Sector::Sector(float floor, float ceil, Color floor_color, Color ceil_color, Color floor_step_color, Color ceil_step_color, Color light_level) {
 	this->floor_height = floor;
 	this->ceil_height = ceil;
 	this->floorColor = floor_color;
 	this->ceilColor = ceil_color;
 	this->floor_step_color = floor_step_color;
 	this->ceil_step_color = ceil_step_color;
+	this->light_level = light_level;
 }
 
 /*Sector::Sector(Sector* s) {
@@ -54,6 +55,10 @@ void Sector::setSectorNum(int n) {
 }
 int Sector::getSectorNum() {
 	return sector_num;
+}
+
+Color& Sector::getLightLevel() {
+	return light_level;
 }
 
 Sector::~Sector() {
