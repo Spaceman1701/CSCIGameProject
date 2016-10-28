@@ -1,15 +1,16 @@
 #include "entity.h"
 #include "game_math.h"
-#define _USE_MATH_DEFINES
 #include <math.h>
+#include <iostream>
 void AbstractEntity::fullSectorSearch() {
 	for (Sector* s : map->getSectors()) {
-		if (pointInsideSector(s, position) != 0) {
+		int pointInside = pointInsideSector(s, position);
+		if (pointInside != 0) {
 			current_sector = s;
-			return;
 		}
 	}
 }
+
 
 void AbstractEntity::updateRotation() {
 	if (angle > 2 * (float)M_PI) {
@@ -23,12 +24,14 @@ void AbstractEntity::updateRotation() {
 	cos_angle = cosf(angle);
 }
 
+
 void AbstractEntity::update() {
 	if (!current_sector || !pointInsideSector(current_sector, position)) {
 		fullSectorSearch();
 	}
 	updateRotation();
 	onUpdate();
+
 }
 
 Map* AbstractEntity::getMap() {

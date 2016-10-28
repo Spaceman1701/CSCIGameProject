@@ -12,5 +12,4 @@ line posv=0,1 color=255,255,255 portal=-1
 line posv=1,2 color=255,255,255 portal=-1
 line posv=2,3 color=255,255,255 portal=-1
 line posv=3,0 color=255,255,255 portal=-1
-
-end
+end 0

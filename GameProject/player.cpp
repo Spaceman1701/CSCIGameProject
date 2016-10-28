@@ -5,11 +5,11 @@
 #include <SDL2/SDL_keycode.h>
 #include "game_math.h"
 Player::Player() {
-	setMoveSpeed(1.0f);
+	setMoveSpeed(10.0f);
 	setRotSpeed(0.05f);
 	setPosition(Vector2(0, 0));
 	setAngle(0);
-	setHeight(10);
+	setHeight(100);
 }
 
 void Player::onUpdate() {
@@ -36,6 +36,6 @@ void Player::onUpdate() {
 	if (!insideMap()) {
 		setPosition(pre_move_pos); //can make walls feel sticky
 	}
-	setHeight(getCurrentSector()->getFloorHeight() + 10);
+	setHeight(getCurrentSector()->getFloorHeight() + 100);
 }
 
