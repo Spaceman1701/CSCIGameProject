@@ -120,7 +120,7 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& draw_list, int to
 			yceil = clampi(yceil, bot[x], top[x]);
 			yfloor = clampi(yfloor, bot[x], top[x]);
 
-			//int z = lerp2(x1, x2, cv1.y, cv2.y, x);
+			int z = lerp2(x1, x2, cv1.y, cv2.y, x) / 40.0f;
 			Color floor_color = s->getFloorColor() * light_level;
 			drawVLine(x, bot[x], yfloor, floor_color); //draw floor;
 
@@ -135,15 +135,18 @@ void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& draw_list, int to
 				bot[x] = std::max(nyfloor, yfloor);
 				if (nyceil < yceil) {
 					Color ceil_step_color = nSector->getCeilStepColor() * light_level;
+
 					drawVLine(x, nyceil + 1, yceil - 1, ceil_step_color);
 				}
 				if (nyfloor > yfloor) {
 					Color floor_step_color = light_level * nSector->getFloorStepColor();
+
 					drawVLine(x, yfloor + 1, nyfloor - 1, floor_step_color);
 				}
 			}
 			if (x != startx && x != endx && !nSector) { //make a nice outline
 				Color wall_color = w->getColor() * light_level;
+
 				drawVLine(x, yfloor + 1, yceil -1, wall_color); //draw wall
 				bot[x] = height;
 				top[x] = 0;
