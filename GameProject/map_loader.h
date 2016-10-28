@@ -33,6 +33,10 @@ private:
 	const char* POSITION_KEYWORD = "pos";
 	const char* COLOR_KEYWORD = "color";
 	const char* SECTOR_LIGHT_LEVEL = "light";
+	const char* VERTEX_KEYWORD = "vert";
+	const char* VERTEX_ID_KEYWORD = "id";
+	const char* VERTEX_POS_KEYWORD = "pos";
+	const char* WALL_POS_INDEX_KEYWORD = "posv";
 	/*-------------------------------------------*/
 	struct SectorData {
 		Color fcolor;
@@ -56,12 +60,14 @@ private:
 	void splitString(string& s, char delim, std::vector<string>& result);
 	Color parseColor(string& data);
 	float parseFloat(string& data);
-	void parsePoint(string& data, Vector2& v1, Vector2& v2);
+	void parsePoint4(string& data, Vector2& v1, Vector2& v2);
+	Vector2 parsePoint2(string& data);
 	int parseReference(string& data);
 	uint8_t parseUInt(string& data);
 
 	Sector* parseSector(std::vector<string>& line, float hscale);
-	LineData parseLine(std::vector<string>& line, Sector* sector, float wscale);
+	LineData parseLine(std::vector<string>& line, Sector* sector, float wscale, std::vector<Vector2>& vertices);
+	Vector2 parseVertex(std::vector<string>& line);
 public:
 	MapLoader();
 	Map* loadMap(const char* file_location);

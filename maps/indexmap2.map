@@ -1,0 +1,53 @@
+count 4
+wscale 1
+hscale 1
+
+vert id=0 pos=-50,-100
+vert id=1 pos=50,-100
+vert id=2 pos=100,-50
+vert id=3 pos=100,50
+vert id=4 pos=50,100
+vert id=5 pos=-50,100
+vert id=6 pos=-100,50
+vert id=7 pos=-100,-50
+vert id=8 pos=-50,-125
+vert id=9 pos=50,-125
+vert id=10 pos=50,125
+vert id=11 pos=-50,125
+vert id=12 pos=50,150
+vert id=13 pos=-50,150
+vert id=14 pos=50,145
+vert id=15 pos=-50,145
+
+begin id=0 fcolor=100,100,100 ccolor=100,100,100 fheight=-10 cheight=50 fstepcolor=100,100,100 cstepcolor=100,100,100 light=100,100,100
+line posv=0,7 color=255,255,255 portal=-1
+line posv=7,6 color=255,255,255 portal=-1
+line posv=6,5 color=255,255,255 portal=-1
+line posv=5,4 color=255,255,255 portal=2
+line posv=4,3 color=255,255,255 portal=-1
+line posv=3,2 color=255,255,255 portal=-1
+line posv=2,1 color=255,255,255 portal=-1
+line posv=1,0 color=255,0,0 portal=1
+end 0
+
+begin id=1 fcolor=100,100,100 ccolor=100,100,100 fheight=-10 cheight=50 fstepcolor=100,100,100 cstepcolor=100,100,100 light=100,100,100
+line posv=0,1 color=255,255,255 portal=0
+line posv=1,9 color=255,255,255 portal=-1
+line posv=9,8 color=255,255,255 portal=-1
+line posv=8,0 color=255,255,255 portal=-1
+end 1
+
+begin id=2 fcolor=100,100,100 ccolor=100,100,100 fheight=-5 cheight=55 fstepcolor=100,100,100 cstepcolor=100,100,100 light=100,100,100
+line posv=4,5 color=255,255,255 portal=0
+line posv=5,11 color=255,255,255 portal=-1
+line posv=11,10 color=255,255,255 portal=3
+line posv=10,4 color=255,255,255 portal=-1
+end 2
+
+begin id=3 fcolor=100,100,100 ccolor=100,100,100 fheight=0 cheight=60 fstepcolor=100,100,100 cstepcolor=100,100,100 light=100,100,100
+line posv=10,11 color=255,255,255 portal=2
+line posv=11,13 color=255,255,255 portal=-1
+line posv=13,12 color=255,255,255 portal=-1
+line posv=12,10 color=255,255,255 portal=-1
+end 3
+

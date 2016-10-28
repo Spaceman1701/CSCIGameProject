@@ -1,0 +1,16 @@
+count 1
+wscale 1
+hscale 1
+
+vert id=0 pos=-100,-100
+vert id=1 pos=-100,100
+vert id=2 pos=100,100
+vert id=3 pos=100,-100
+
+begin id=0 fcolor=100,100,100 ccolor=100,100,100 fheight=-10 cheight=50 fstepcolor=100,100,100 cstepcolor=100,100,100 light=100,100,100
+line posv=0,1 color=255,255,255 portal=-1
+line posv=1,2 color=255,255,255 portal=-1
+line posv=2,3 color=255,255,255 portal=-1
+line posv=3,0 color=255,255,255 portal=-1
+
+end
