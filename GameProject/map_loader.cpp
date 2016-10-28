@@ -107,8 +107,8 @@ MapLoader::LineData MapLoader::parseLine(std::vector<string>& line, Sector* sect
 		else if (property_data[0] == WALL_POS_INDEX_KEYWORD) {
 			std::vector<string> pos_data;
 			splitString(property_data[1], VALUE_DELIM, pos_data);
-			ld.position[0] = vertices[parseReference(pos_data[0])];
-			ld.position[1] = vertices[parseReference(pos_data[1])];
+			ld.position[0] = vertices[parseReference(pos_data[0])] * wscale;
+			ld.position[1] = vertices[parseReference(pos_data[1])] * wscale;
 			std::cout << "parsed vert by index reference: " << ld.position[0].x << ", " << ld.position[1].y << std::endl;
 		}
 		else if (property_data[0] == COLOR_KEYWORD) {

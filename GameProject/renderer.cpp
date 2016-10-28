@@ -7,7 +7,7 @@
 #include <math.h>
 #include <string.h>
 
-Renderer::Renderer(int width, int height) : framebuffer(width, height), top(width), bot(width) {
+Renderer::Renderer(int width, int height) : framebuffer(width, height) {
 	this->width = width;
 	this->height = height;
 	half_width = width / 2;
@@ -16,6 +16,9 @@ Renderer::Renderer(int width, int height) : framebuffer(width, height), top(widt
 	vfov = 45.0f * DEGTORAD *(float)height;
 	hfov = (float)width * vfov / height;
  	nearClip = 9.0f;
+
+	bot = new int[width];
+	top = new int[width];
 }
 
 void Renderer::update() {
@@ -44,7 +47,7 @@ void Renderer::drawView(Player& p) {
 	}
 }
 
-void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& draw_list, ClipList& top, ClipList& bot) {
+void Renderer::drawSector(DrawSector& ds, Player& p, DrawList& draw_list, int top[], int bot[]) {
 	Vector2 playerLoc = p.getPosition();
 	float playerZ = p.getHeight();
 	Sector* s = ds.sector;

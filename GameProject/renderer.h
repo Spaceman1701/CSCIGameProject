@@ -15,7 +15,6 @@ class Renderer {
 
 
 	typedef std::queue<DrawSector> DrawList;
-	typedef std::vector<int> ClipList;
 private:
 	Framebuffer framebuffer;
 	int width;
@@ -29,13 +28,13 @@ private:
 	int half_height;
 	int half_width;
 
-	ClipList top;
-	ClipList bot;
+	int* top;
+	int* bot;
 	
 
 	Vector2 calcPlayerSpaceVec(Vector2& vec, Vector2& origin, float angle, float cos, float sin);
 	Vector2 getPerspectiveScale(Vector2& vec);
-	void drawSector(DrawSector& s, Player& p, DrawList& drawList, ClipList& top, ClipList& bottom);
+	void drawSector(DrawSector& s, Player& p, DrawList& drawList, int top[], int bot[]);
 	int project(int center, float value, float scale);
 public:
 	Renderer(int width, int height);
