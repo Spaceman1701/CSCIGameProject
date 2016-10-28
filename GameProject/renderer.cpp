@@ -13,9 +13,9 @@ Renderer::Renderer(int width, int height) : framebuffer(width, height), top(widt
 	half_width = width / 2;
 	half_height = height / 2;
 
-	hfov = .73f * (float)height;
-	vfov = .2f * (float)height;
- 	nearClip = 5.f;
+	vfov = 45.0f * DEGTORAD *(float)height;
+	hfov = (float)width * vfov / height;
+ 	nearClip = 9.0f;
 }
 
 void Renderer::update() {

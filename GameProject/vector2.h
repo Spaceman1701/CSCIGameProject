@@ -49,3 +49,7 @@ inline Vector2 operator+(const Vector2& left, const Vector2& right) {
 inline Vector2 operator-(const Vector2& vec) {
 	return Vector2(-vec.x, -vec.y);
 }
+
+inline bool operator==(const Vector2& left, const Vector2& right) {
+	return left.x == right.x && left.y == right.y;
+}
